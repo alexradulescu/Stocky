@@ -30,26 +30,29 @@ export function HomePage() {
   };
 
   return (
-    <Stack gap="md" className="animate-fade-in">
-      {/* Compact Header */}
-      <Group justify="space-between" align="center">
+    <Stack gap="sm" className="animate-fade-in">
+      {/* iOS 26 Compact Header */}
+      <Group justify="space-between" align="center" py={4}>
         <Box>
-          <Title order={2} style={{ fontSize: '1.5rem', marginBottom: 2 }}>
+          <Title order={3} style={{ fontSize: '1.125rem', fontWeight: 600, marginBottom: 0, lineHeight: 1.2 }}>
             Stocky
           </Title>
-          <Text size="xs" style={{ color: 'var(--stocky-text-muted)' }}>
+          <Text size="10px" style={{ color: 'var(--stocky-text-muted)', letterSpacing: '0.02em' }}>
             Stock Options Tracker
           </Text>
         </Box>
         <Button
           onClick={handleAddPlan}
-          leftSection={<IconPlus size={16} />}
-          size="sm"
+          leftSection={<IconPlus size={14} />}
+          size="xs"
           style={{
             background: 'linear-gradient(135deg, #e6c24e 0%, #f0da94 100%)',
             color: '#0f1419',
             fontWeight: 600,
             border: 'none',
+            height: 28,
+            paddingLeft: 10,
+            paddingRight: 12,
           }}
         >
           Add
@@ -61,34 +64,34 @@ export function HomePage() {
         <Box
           style={{
             display: 'flex',
-            gap: 16,
-            padding: '12px 16px',
-            borderRadius: 12,
+            gap: 12,
+            padding: '8px 12px',
+            borderRadius: 10,
             background: 'rgba(255, 255, 255, 0.02)',
             border: '1px solid rgba(255, 255, 255, 0.06)',
           }}
         >
           <Box style={{ flex: 1 }}>
-            <Text size="xs" style={{ color: 'var(--stocky-text-muted)', marginBottom: 2 }}>
+            <Text size="10px" style={{ color: 'var(--stocky-text-muted)', marginBottom: 1 }}>
               Total
             </Text>
-            <Text size="sm" fw={600} className="number-display">
+            <Text size="xs" fw={600} className="number-display">
               {formatUnits(totalUnits)}
             </Text>
           </Box>
           <Box style={{ flex: 1 }}>
-            <Text size="xs" style={{ color: 'var(--stocky-text-muted)', marginBottom: 2 }}>
+            <Text size="10px" style={{ color: 'var(--stocky-text-muted)', marginBottom: 1 }}>
               Vested
             </Text>
-            <Text size="sm" fw={600} className="number-display" style={{ color: 'var(--stocky-emerald)' }}>
+            <Text size="xs" fw={600} className="number-display" style={{ color: 'var(--stocky-emerald)' }}>
               {formatUnits(vestedUnits)}
             </Text>
           </Box>
           <Box style={{ flex: 1.5 }}>
-            <Text size="xs" style={{ color: 'var(--stocky-text-muted)', marginBottom: 2 }}>
+            <Text size="10px" style={{ color: 'var(--stocky-text-muted)', marginBottom: 1 }}>
               Value
             </Text>
-            <Text size="sm" fw={600} className="number-display text-gradient-gold">
+            <Text size="xs" fw={600} className="number-display text-gradient-gold">
               {currentStockPrice > 0 ? formatUSD(currentValue) : '—'}
             </Text>
           </Box>
@@ -121,32 +124,33 @@ export function HomePage() {
       {plans.length === 0 && (
         <Box
           style={{
-            padding: '40px 24px',
+            padding: '24px 16px',
             textAlign: 'center',
-            borderRadius: 12,
+            borderRadius: 10,
             background: 'rgba(255, 255, 255, 0.02)',
             border: '1px solid rgba(255, 255, 255, 0.06)',
           }}
         >
           <IconTrendingUp
-            size={32}
-            style={{ color: 'var(--stocky-gold)', marginBottom: 12 }}
+            size={24}
+            style={{ color: 'var(--stocky-gold)', marginBottom: 8 }}
           />
-          <Text fw={500} mb="xs" style={{ color: 'var(--stocky-text-primary)' }}>
+          <Text size="sm" fw={500} mb={4} style={{ color: 'var(--stocky-text-primary)' }}>
             No plans yet
           </Text>
-          <Text size="sm" mb="md" style={{ color: 'var(--stocky-text-muted)' }}>
+          <Text size="xs" mb="sm" style={{ color: 'var(--stocky-text-muted)' }}>
             Add your first stock option plan
           </Text>
           <Button
             onClick={handleAddPlan}
-            leftSection={<IconPlus size={16} />}
-            size="sm"
+            leftSection={<IconPlus size={14} />}
+            size="xs"
             style={{
               background: 'linear-gradient(135deg, #e6c24e 0%, #f0da94 100%)',
               color: '#0f1419',
               fontWeight: 600,
               border: 'none',
+              height: 28,
             }}
           >
             Add Plan
