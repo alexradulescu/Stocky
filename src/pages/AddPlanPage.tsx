@@ -1,4 +1,3 @@
-import { Container, Stack } from '@mantine/core';
 import { useNavigate } from '@tanstack/react-router';
 import { useStore } from '../store/useStore';
 import { PlanForm } from '../components/PlanForm';
@@ -18,10 +17,6 @@ export function AddPlanPage() {
   };
 
   return (
-    <Container size="sm" py="xl" pb="80px">
-      <Stack gap="xl">
-        <PlanForm onSubmit={handleSubmit} onCancel={handleCancel} />
-      </Stack>
-    </Container>
+    <PlanForm onSubmit={handleSubmit} onCancel={handleCancel} />
   );
 }

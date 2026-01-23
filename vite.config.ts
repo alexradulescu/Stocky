@@ -11,11 +11,11 @@ export default defineConfig({
       manifest: {
         name: 'Stocky - Stock Options Tracker',
         short_name: 'Stocky',
-        description: 'Personal stock options vesting tracker',
+        description: 'Personal stock options vesting tracker - Track your equity grants with elegance',
         start_url: '/',
         display: 'standalone',
-        background_color: '#ffffff',
-        theme_color: '#228be6',
+        background_color: '#0f1419',
+        theme_color: '#0f1419',
         icons: [
           {
             src: '/icon-192.png',
@@ -45,6 +45,28 @@ export default defineConfig({
               expiration: {
                 maxEntries: 10,
                 maxAgeSeconds: 60 * 60 * 24 // 24 hours
+              }
+            }
+          },
+          {
+            urlPattern: /^https:\/\/fonts\.googleapis\.com\/.*/i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'google-fonts-stylesheets',
+              expiration: {
+                maxEntries: 10,
+                maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year
+              }
+            }
+          },
+          {
+            urlPattern: /^https:\/\/fonts\.gstatic\.com\/.*/i,
+            handler: 'CacheFirst',
+            options: {
+              cacheName: 'google-fonts-webfonts',
+              expiration: {
+                maxEntries: 30,
+                maxAgeSeconds: 60 * 60 * 24 * 365 // 1 year
               }
             }
           }
