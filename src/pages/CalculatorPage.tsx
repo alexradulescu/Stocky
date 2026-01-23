@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { Stack, Title, NumberInput, Text, Box, Group } from '@mantine/core';
 import { DateInput } from '@mantine/dates';
-import { IconCalculator, IconCurrencyDollar, IconCalendar, IconAlertCircle } from '@tabler/icons-react';
+import { IconCalculator, IconAlertCircle } from '@tabler/icons-react';
 import { useStore } from '../store/useStore';
 import { useCurrencyRate } from '../hooks/useCurrencyRate';
 import { CalculatorResults } from '../components/CalculatorResults';
@@ -63,66 +63,27 @@ export function CalculatorPage() {
     };
   }, [plans, saleDate, expectedPrice, rate]);
 
-  // Empty state for no plans
+  // Empty state
   if (plans.length === 0) {
     return (
-      <Stack gap="xl" className="animate-fade-in">
-        {/* Header */}
+      <Stack gap="md" className="animate-fade-in">
         <Box>
-          <Text
-            size="xs"
-            fw={600}
-            tt="uppercase"
-            style={{
-              letterSpacing: '0.12em',
-              color: 'var(--stocky-gold)',
-              marginBottom: 4,
-            }}
-          >
-            Profit Projection
-          </Text>
-          <Title
-            order={1}
-            style={{
-              fontSize: 'clamp(2rem, 5vw, 2.75rem)',
-              fontWeight: 700,
-              letterSpacing: '-0.02em',
-              lineHeight: 1.1,
-            }}
-          >
-            Calculator
-          </Title>
+          <Title order={2} style={{ fontSize: '1.5rem', marginBottom: 2 }}>Calculator</Title>
+          <Text size="xs" style={{ color: 'var(--stocky-text-muted)' }}>Profit Projection</Text>
         </Box>
-
         <Box
-          className="glass-panel"
           style={{
-            padding: '60px 32px',
+            padding: '40px 24px',
             textAlign: 'center',
+            borderRadius: 10,
+            background: 'rgba(255, 255, 255, 0.02)',
+            border: '1px solid rgba(255, 255, 255, 0.06)',
           }}
         >
-          <Box
-            style={{
-              width: 72,
-              height: 72,
-              margin: '0 auto 24px',
-              borderRadius: 20,
-              background: 'linear-gradient(135deg, rgba(230, 194, 78, 0.12) 0%, rgba(230, 194, 78, 0.04) 100%)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <IconCalculator size={32} style={{ color: 'var(--stocky-gold)' }} />
-          </Box>
-          <Title order={3} mb="sm" style={{ color: 'var(--stocky-text-primary)' }}>
-            No plans to calculate
-          </Title>
-          <Text
-            size="sm"
-            style={{ color: 'var(--stocky-text-secondary)', maxWidth: 280, margin: '0 auto' }}
-          >
-            Add some stock option plans first to use the gain calculator.
+          <IconCalculator size={32} style={{ color: 'var(--stocky-gold)', marginBottom: 12 }} />
+          <Text fw={500} mb="xs" style={{ color: 'var(--stocky-text-primary)' }}>No plans yet</Text>
+          <Text size="sm" style={{ color: 'var(--stocky-text-muted)' }}>
+            Add plans to use the calculator
           </Text>
         </Box>
       </Stack>
@@ -130,157 +91,78 @@ export function CalculatorPage() {
   }
 
   const hasVestedUnits = results && results.totalVestedUnits > 0;
+  const inputStyles = {
+    input: {
+      backgroundColor: 'rgba(255, 255, 255, 0.03)',
+      border: '1px solid rgba(255, 255, 255, 0.1)',
+      fontSize: '16px',
+      height: 44,
+    },
+    label: {
+      fontSize: '12px',
+      fontWeight: 500,
+      color: 'var(--stocky-text-muted)',
+      marginBottom: 4,
+    },
+  };
 
   return (
-    <Stack gap="xl" className="animate-fade-in">
+    <Stack gap="md" className="animate-fade-in">
       {/* Header */}
       <Box>
-        <Text
-          size="xs"
-          fw={600}
-          tt="uppercase"
-          style={{
-            letterSpacing: '0.12em',
-            color: 'var(--stocky-gold)',
-            marginBottom: 4,
-          }}
-        >
-          Profit Projection
-        </Text>
-        <Title
-          order={1}
-          style={{
-            fontSize: 'clamp(2rem, 5vw, 2.75rem)',
-            fontWeight: 700,
-            letterSpacing: '-0.02em',
-            lineHeight: 1.1,
-          }}
-        >
-          Calculator
-        </Title>
-        <Text size="sm" mt="xs" style={{ color: 'var(--stocky-text-secondary)' }}>
-          Calculate your potential profit from selling vested options
-        </Text>
+        <Title order={2} style={{ fontSize: '1.5rem', marginBottom: 2 }}>Calculator</Title>
+        <Text size="xs" style={{ color: 'var(--stocky-text-muted)' }}>Profit Projection</Text>
       </Box>
 
-      {/* Input Section */}
-      <Box
-        className="glass-panel animate-fade-in-up stagger-1"
-        style={{ padding: '24px' }}
-      >
-        <Group gap="xl" grow>
-          <Box>
-            <Group gap="sm" mb="xs">
-              <IconCalendar size={16} style={{ color: 'var(--stocky-gold)' }} />
-              <Text
-                size="xs"
-                fw={600}
-                tt="uppercase"
-                style={{
-                  letterSpacing: '0.06em',
-                  color: 'var(--stocky-text-muted)',
-                }}
-              >
-                Sale Date
-              </Text>
-            </Group>
-            <DateInput
-              value={saleDate}
-              onChange={(date) => {
-                if (typeof date === 'string') {
-                  setSaleDate(new Date(date));
-                } else {
-                  setSaleDate(date);
-                }
-              }}
-              placeholder="Select sale date"
-              size="md"
-              styles={{
-                input: {
-                  backgroundColor: 'rgba(255, 255, 255, 0.03)',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                  fontSize: '16px',
-                  height: 48,
-                  '&:focus': {
-                    borderColor: 'var(--stocky-gold)',
-                  },
-                },
-              }}
-            />
-          </Box>
+      {/* Inputs */}
+      <Group grow gap="sm">
+        <DateInput
+          label="Sale Date"
+          value={saleDate}
+          onChange={(date) => {
+            if (typeof date === 'string') {
+              setSaleDate(new Date(date));
+            } else {
+              setSaleDate(date);
+            }
+          }}
+          placeholder="Select date"
+          styles={inputStyles}
+        />
+        <NumberInput
+          label="Expected Price"
+          value={expectedPrice}
+          onChange={setExpectedPrice}
+          placeholder="0.00"
+          min={0}
+          step={0.01}
+          decimalScale={2}
+          prefix="$"
+          styles={inputStyles}
+        />
+      </Group>
 
-          <Box>
-            <Group gap="sm" mb="xs">
-              <IconCurrencyDollar size={16} style={{ color: 'var(--stocky-gold)' }} />
-              <Text
-                size="xs"
-                fw={600}
-                tt="uppercase"
-                style={{
-                  letterSpacing: '0.06em',
-                  color: 'var(--stocky-text-muted)',
-                }}
-              >
-                Expected Price (USD)
-              </Text>
-            </Group>
-            <NumberInput
-              value={expectedPrice}
-              onChange={setExpectedPrice}
-              placeholder="0.00"
-              min={0}
-              step={0.01}
-              decimalScale={2}
-              size="md"
-              autoFocus
-              leftSection={
-                <Text size="sm" fw={600} style={{ color: 'var(--stocky-text-muted)' }}>
-                  $
-                </Text>
-              }
-              styles={{
-                input: {
-                  backgroundColor: 'rgba(255, 255, 255, 0.03)',
-                  border: '1px solid rgba(255, 255, 255, 0.1)',
-                  fontSize: '16px',
-                  height: 48,
-                  paddingLeft: 36,
-                  '&:focus': {
-                    borderColor: 'var(--stocky-gold)',
-                  },
-                },
-              }}
-            />
-          </Box>
-        </Group>
-      </Box>
-
-      {/* Warning message if no vested units */}
+      {/* Warning */}
       {!hasVestedUnits && expectedPrice && Number(expectedPrice) > 0 && (
         <Box
-          className="animate-fade-in-up stagger-2"
           style={{
-            padding: '16px 20px',
-            borderRadius: 12,
+            padding: '10px 14px',
+            borderRadius: 8,
             background: 'rgba(244, 63, 94, 0.08)',
             border: '1px solid rgba(244, 63, 94, 0.2)',
           }}
         >
-          <Group gap="sm">
-            <IconAlertCircle size={18} style={{ color: 'var(--stocky-rose)' }} />
-            <Text size="sm" style={{ color: 'var(--stocky-rose)' }}>
-              No units will be vested by this date
+          <Group gap="xs">
+            <IconAlertCircle size={16} style={{ color: 'var(--stocky-rose)' }} />
+            <Text size="xs" style={{ color: 'var(--stocky-rose)' }}>
+              No units vested by this date
             </Text>
           </Group>
         </Box>
       )}
 
       {/* Results */}
-      {hasVestedUnits && results && (
-        <Box className="animate-fade-in-up stagger-2">
-          <CalculatorResults results={results} />
-        </Box>
-      )}
+      {hasVestedUnits && results && <CalculatorResults results={results} />}
     </Stack>
   );
 }
