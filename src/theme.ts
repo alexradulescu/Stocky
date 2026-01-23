@@ -58,13 +58,13 @@ export const theme = createTheme({
     fontWeight: '600',
   },
 
-  // Refined spacing scale
+  // iOS 26 compact spacing scale
   spacing: {
-    xs: rem(8),
-    sm: rem(12),
-    md: rem(20),
-    lg: rem(28),
-    xl: rem(40),
+    xs: rem(4),
+    sm: rem(8),
+    md: rem(12),
+    lg: rem(16),
+    xl: rem(24),
   },
 
   // Elegant radius - slightly softer than default

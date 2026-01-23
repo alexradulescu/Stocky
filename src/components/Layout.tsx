@@ -24,35 +24,35 @@ export function Layout({ children }: LayoutProps) {
 
   return (
     <AppShell
-      footer={{ height: 72 }}
+      footer={{ height: 52 }}
       layout="default"
       styles={{
         main: {
           backgroundColor: 'transparent',
           minHeight: '100vh',
-          paddingBottom: 'calc(72px + var(--mantine-spacing-xl))',
+          paddingBottom: 'calc(52px + var(--mantine-spacing-sm))',
         },
       }}
     >
       <AppShell.Main>
-        <Container size="md" py="xl" style={{ position: 'relative', zIndex: 1 }}>
+        <Container size="md" py="sm" style={{ position: 'relative', zIndex: 1 }}>
           {children}
         </Container>
       </AppShell.Main>
 
       <AppShell.Footer
         style={{
-          backgroundColor: 'rgba(15, 20, 25, 0.85)',
-          backdropFilter: 'blur(20px)',
-          WebkitBackdropFilter: 'blur(20px)',
-          borderTop: '1px solid rgba(255, 255, 255, 0.06)',
+          backgroundColor: 'rgba(15, 20, 25, 0.92)',
+          backdropFilter: 'blur(24px)',
+          WebkitBackdropFilter: 'blur(24px)',
+          borderTop: '1px solid rgba(255, 255, 255, 0.04)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          padding: '0 16px',
+          padding: '0 12px',
         }}
       >
-        <Group gap={0} style={{ maxWidth: 400, width: '100%' }}>
+        <Group gap={0} style={{ maxWidth: 320, width: '100%' }}>
           {navItems.map(({ path, icon: Icon, label }) => {
             const active = isActive(path);
             return (
@@ -66,44 +66,45 @@ export function Layout({ children }: LayoutProps) {
                   flexDirection: 'column',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  padding: '12px 8px',
-                  borderRadius: 12,
-                  transition: 'all 0.2s ease',
+                  padding: '6px 4px',
+                  borderRadius: 8,
+                  transition: 'all 0.15s ease',
                   position: 'relative',
-                  backgroundColor: active ? 'rgba(230, 194, 78, 0.08)' : 'transparent',
+                  backgroundColor: active ? 'rgba(230, 194, 78, 0.06)' : 'transparent',
                 }}
               >
-                {/* Active indicator glow */}
+                {/* Active indicator - iOS 26 style pill */}
                 {active && (
                   <Box
                     style={{
                       position: 'absolute',
-                      top: 0,
+                      top: 2,
                       left: '50%',
                       transform: 'translateX(-50%)',
-                      width: 24,
+                      width: 20,
                       height: 2,
-                      background: 'linear-gradient(90deg, transparent, var(--stocky-gold), transparent)',
+                      background: 'var(--stocky-gold)',
                       borderRadius: 1,
+                      opacity: 0.8,
                     }}
                   />
                 )}
                 <Icon
-                  size={22}
-                  stroke={1.75}
+                  size={20}
+                  stroke={1.5}
                   style={{
                     color: active ? 'var(--stocky-gold)' : 'var(--stocky-text-muted)',
-                    transition: 'color 0.2s ease',
+                    transition: 'color 0.15s ease',
                   }}
                 />
                 <Text
-                  size="xs"
-                  mt={4}
+                  size="10px"
+                  mt={2}
                   fw={active ? 600 : 500}
                   style={{
                     color: active ? 'var(--stocky-gold)' : 'var(--stocky-text-muted)',
-                    letterSpacing: '0.02em',
-                    transition: 'color 0.2s ease',
+                    letterSpacing: '0.01em',
+                    transition: 'color 0.15s ease',
                   }}
                 >
                   {label}
