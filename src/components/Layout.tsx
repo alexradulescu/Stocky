@@ -1,4 +1,4 @@
-import { AppShell, Container } from '@mantine/core';
+import { AppShell, Container, Box, Text, UnstyledButton, Group } from '@mantine/core';
 import { IconHome, IconCalculator } from '@tabler/icons-react';
 import { useLocation, Link } from '@tanstack/react-router';
 
@@ -6,58 +6,112 @@ interface LayoutProps {
   children: React.ReactNode;
 }
 
+const navItems = [
+  { path: '/', icon: IconHome, label: 'Portfolio' },
+  { path: '/calculator', icon: IconCalculator, label: 'Calculator' },
+];
+
 export function Layout({ children }: LayoutProps) {
   const location = useLocation();
   const currentPath = location.pathname;
 
-  const isActive = (path: string) => currentPath === path || currentPath.startsWith(path + '/');
-
-  const navItems = [
-    { path: '/', icon: IconHome, label: 'Home' },
-    { path: '/calculator', icon: IconCalculator, label: 'Calculator' },
-  ];
+  const isActive = (path: string) => {
+    if (path === '/') {
+      return currentPath === '/';
+    }
+    return currentPath.startsWith(path);
+  };
 
   return (
     <AppShell
-      footer={{ height: 60 }}
+      footer={{ height: 72 }}
       layout="default"
+      styles={{
+        main: {
+          backgroundColor: 'transparent',
+          minHeight: '100vh',
+          paddingBottom: 'calc(72px + var(--mantine-spacing-xl))',
+        },
+      }}
     >
       <AppShell.Main>
-        <Container py="xl" pb="100px">
+        <Container size="md" py="xl" style={{ position: 'relative', zIndex: 1 }}>
           {children}
         </Container>
       </AppShell.Main>
 
       <AppShell.Footer
         style={{
+          backgroundColor: 'rgba(15, 20, 25, 0.85)',
+          backdropFilter: 'blur(20px)',
+          WebkitBackdropFilter: 'blur(20px)',
+          borderTop: '1px solid rgba(255, 255, 255, 0.06)',
           display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-around',
           alignItems: 'center',
-          borderTop: '1px solid #e0e0e0',
-          backgroundColor: '#fff'
+          justifyContent: 'center',
+          padding: '0 16px',
         }}
       >
-        {navItems.map(({ path, icon: Icon, label }) => (
-          <Link
-            key={path}
-            to={path}
-            style={{
-              flex: 1,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              padding: '8px',
-              borderTop: isActive(path) ? '3px solid #228be6' : 'none',
-              color: isActive(path) ? '#228be6' : '#666',
-              textDecoration: 'none'
-            }}
-          >
-            <Icon size={24} />
-            <span style={{ fontSize: '12px', marginTop: '4px' }}>{label}</span>
-          </Link>
-        ))}
+        <Group gap={0} style={{ maxWidth: 400, width: '100%' }}>
+          {navItems.map(({ path, icon: Icon, label }) => {
+            const active = isActive(path);
+            return (
+              <UnstyledButton
+                key={path}
+                component={Link}
+                to={path}
+                style={{
+                  flex: 1,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  padding: '12px 8px',
+                  borderRadius: 12,
+                  transition: 'all 0.2s ease',
+                  position: 'relative',
+                  backgroundColor: active ? 'rgba(230, 194, 78, 0.08)' : 'transparent',
+                }}
+              >
+                {/* Active indicator glow */}
+                {active && (
+                  <Box
+                    style={{
+                      position: 'absolute',
+                      top: 0,
+                      left: '50%',
+                      transform: 'translateX(-50%)',
+                      width: 24,
+                      height: 2,
+                      background: 'linear-gradient(90deg, transparent, var(--stocky-gold), transparent)',
+                      borderRadius: 1,
+                    }}
+                  />
+                )}
+                <Icon
+                  size={22}
+                  stroke={1.75}
+                  style={{
+                    color: active ? 'var(--stocky-gold)' : 'var(--stocky-text-muted)',
+                    transition: 'color 0.2s ease',
+                  }}
+                />
+                <Text
+                  size="xs"
+                  mt={4}
+                  fw={active ? 600 : 500}
+                  style={{
+                    color: active ? 'var(--stocky-gold)' : 'var(--stocky-text-muted)',
+                    letterSpacing: '0.02em',
+                    transition: 'color 0.2s ease',
+                  }}
+                >
+                  {label}
+                </Text>
+              </UnstyledButton>
+            );
+          })}
+        </Group>
       </AppShell.Footer>
     </AppShell>
   );

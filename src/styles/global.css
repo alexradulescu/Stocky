@@ -1,0 +1,280 @@
+/*
+ * Stocky Global Styles
+ * Premium Financial Aesthetic
+ */
+
+/* ===== CSS Variables ===== */
+:root {
+  --stocky-bg-primary: #0f1419;
+  --stocky-bg-secondary: #151b23;
+  --stocky-bg-elevated: #1a212a;
+  --stocky-bg-glass: rgba(255, 255, 255, 0.02);
+  --stocky-border-subtle: rgba(255, 255, 255, 0.06);
+  --stocky-border-medium: rgba(255, 255, 255, 0.1);
+  --stocky-text-primary: #f4f4f5;
+  --stocky-text-secondary: #a1a1aa;
+  --stocky-text-muted: #71717a;
+  --stocky-gold: #e6c24e;
+  --stocky-gold-dim: rgba(230, 194, 78, 0.15);
+  --stocky-emerald: #22c55e;
+  --stocky-emerald-dim: rgba(34, 197, 94, 0.15);
+  --stocky-rose: #f43f5e;
+  --stocky-rose-dim: rgba(244, 63, 94, 0.15);
+
+  /* Gradients */
+  --stocky-gradient-gold: linear-gradient(135deg, #e6c24e 0%, #f0da94 100%);
+  --stocky-gradient-dark: linear-gradient(180deg, #151b23 0%, #0f1419 100%);
+  --stocky-gradient-card: linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
+  --stocky-gradient-glow: radial-gradient(ellipse at 50% 0%, rgba(230, 194, 78, 0.08) 0%, transparent 60%);
+}
+
+/* ===== Base Styles ===== */
+html {
+  background-color: var(--stocky-bg-primary);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background: var(--stocky-gradient-dark);
+  color: var(--stocky-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+#root {
+  min-height: 100vh;
+  position: relative;
+}
+
+/* Ambient glow effect at top */
+#root::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 400px;
+  background: var(--stocky-gradient-glow);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ===== Selection Styling ===== */
+::selection {
+  background: var(--stocky-gold-dim);
+  color: var(--stocky-gold);
+}
+
+/* ===== Scrollbar Styling ===== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* ===== Animation Keyframes ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(230, 194, 78, 0.1);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(230, 194, 78, 0.2);
+  }
+}
+
+/* ===== Animation Classes ===== */
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+.animate-fade-in-scale {
+  animation: fadeInScale 0.3s ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.4s ease-out forwards;
+}
+
+/* Staggered animation delays */
+.stagger-1 { animation-delay: 0.05s; }
+.stagger-2 { animation-delay: 0.1s; }
+.stagger-3 { animation-delay: 0.15s; }
+.stagger-4 { animation-delay: 0.2s; }
+.stagger-5 { animation-delay: 0.25s; }
+.stagger-6 { animation-delay: 0.3s; }
+
+/* ===== Utility Classes ===== */
+.glass-panel {
+  background: var(--stocky-gradient-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--stocky-border-subtle);
+  border-radius: 16px;
+}
+
+.glass-panel-hover {
+  transition: all 0.3s ease;
+}
+
+.glass-panel-hover:hover {
+  border-color: var(--stocky-border-medium);
+  background: rgba(255, 255, 255, 0.04);
+  transform: translateY(-2px);
+}
+
+.gold-accent {
+  color: var(--stocky-gold);
+}
+
+.gold-glow {
+  animation: glow 3s ease-in-out infinite;
+}
+
+.text-gradient-gold {
+  background: var(--stocky-gradient-gold);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ===== Premium Number Display ===== */
+.number-display {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+/* ===== Divider Styles ===== */
+.divider-subtle {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--stocky-border-subtle) 20%,
+    var(--stocky-border-subtle) 80%,
+    transparent 100%
+  );
+}
+
+/* ===== Focus States ===== */
+*:focus-visible {
+  outline: 2px solid var(--stocky-gold);
+  outline-offset: 2px;
+}
+
+/* ===== Mantine Overrides for Dark Theme ===== */
+.mantine-Modal-overlay {
+  background-color: rgba(0, 0, 0, 0.7) !important;
+  backdrop-filter: blur(4px);
+}
+
+.mantine-DateInput-dropdown,
+.mantine-DatePicker-dropdown {
+  background-color: var(--stocky-bg-elevated) !important;
+  border: 1px solid var(--stocky-border-medium) !important;
+}
+
+.mantine-DateInput-day,
+.mantine-DatePicker-day {
+  color: var(--stocky-text-primary);
+}
+
+.mantine-DateInput-day:hover,
+.mantine-DatePicker-day:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.mantine-DateInput-day[data-selected],
+.mantine-DatePicker-day[data-selected] {
+  background-color: var(--stocky-gold) !important;
+  color: var(--stocky-bg-primary) !important;
+}
+
+/* Progress bar gold color */
+.progress-gold .mantine-Progress-section {
+  background: var(--stocky-gradient-gold);
+}
+
+/* Input placeholder styling */
+input::placeholder,
+textarea::placeholder {
+  color: var(--stocky-text-muted) !important;
+}

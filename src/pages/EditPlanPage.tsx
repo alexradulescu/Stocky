@@ -1,4 +1,5 @@
-import { Container, Stack, Text } from '@mantine/core';
+import { Box, Title, Text, Stack } from '@mantine/core';
+import { IconAlertCircle } from '@tabler/icons-react';
 import { useNavigate } from '@tanstack/react-router';
 import { useStore } from '../store/useStore';
 import { PlanForm } from '../components/PlanForm';
@@ -16,9 +17,39 @@ export function EditPlanPage({ planId }: EditPlanPageProps) {
 
   if (!plan) {
     return (
-      <Container size="sm" py="xl">
-        <Text>Plan not found</Text>
-      </Container>
+      <Stack gap="xl" className="animate-fade-in">
+        <Box
+          className="glass-panel"
+          style={{
+            padding: '60px 32px',
+            textAlign: 'center',
+          }}
+        >
+          <Box
+            style={{
+              width: 72,
+              height: 72,
+              margin: '0 auto 24px',
+              borderRadius: 20,
+              background: 'rgba(244, 63, 94, 0.1)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <IconAlertCircle size={32} style={{ color: 'var(--stocky-rose)' }} />
+          </Box>
+          <Title order={3} mb="sm" style={{ color: 'var(--stocky-text-primary)' }}>
+            Plan not found
+          </Title>
+          <Text
+            size="sm"
+            style={{ color: 'var(--stocky-text-secondary)', maxWidth: 280, margin: '0 auto' }}
+          >
+            The plan you're looking for doesn't exist or has been deleted.
+          </Text>
+        </Box>
+      </Stack>
     );
   }
 
@@ -32,15 +63,11 @@ export function EditPlanPage({ planId }: EditPlanPageProps) {
   };
 
   return (
-    <Container size="sm" py="xl" pb="80px">
-      <Stack gap="xl">
-        <PlanForm
-          initialData={plan}
-          onSubmit={handleSubmit}
-          onCancel={handleCancel}
-          isEditMode={true}
-        />
-      </Stack>
-    </Container>
+    <PlanForm
+      initialData={plan}
+      onSubmit={handleSubmit}
+      onCancel={handleCancel}
+      isEditMode={true}
+    />
   );
 }
