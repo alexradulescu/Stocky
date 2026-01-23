@@ -1,6 +1,5 @@
 import { Fragment } from 'react';
-import { Box, Table, Text, Title, Group } from '@mantine/core';
-import { IconCalendarStats } from '@tabler/icons-react';
+import { Box, Table, Text } from '@mantine/core';
 import { StockPlan } from '../types/index';
 import { calculateVestedUnits } from '../utils/vesting';
 import { formatUSD, formatUnits } from '../utils/formatting';
@@ -44,151 +43,64 @@ export function VestingTable({ plans, currentStockPrice }: VestingTableProps) {
   });
 
   return (
-    <Box className="glass-panel" style={{ overflow: 'hidden' }}>
-      {/* Table Header */}
-      <Box
-        style={{
-          padding: '20px 24px',
-          borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
-          background: 'linear-gradient(135deg, rgba(255, 255, 255, 0.03) 0%, transparent 100%)',
-        }}
-      >
-        <Group gap="sm" align="center">
-          <Box
-            style={{
-              width: 36,
-              height: 36,
-              borderRadius: 10,
-              background: 'rgba(230, 194, 78, 0.1)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <IconCalendarStats size={18} style={{ color: 'var(--stocky-gold)' }} />
-          </Box>
-          <Box>
-            <Title order={4} style={{ fontSize: '1rem', marginBottom: 2 }}>
-              Vesting Projections
-            </Title>
-            <Text size="xs" style={{ color: 'var(--stocky-text-muted)' }}>
-              Based on {formatUSD(currentStockPrice)} per share
-            </Text>
-          </Box>
-        </Group>
+    <Box
+      style={{
+        borderRadius: 10,
+        background: 'rgba(255, 255, 255, 0.02)',
+        border: '1px solid rgba(255, 255, 255, 0.06)',
+        overflow: 'hidden',
+      }}
+    >
+      <Box style={{ padding: '10px 16px', borderBottom: '1px solid rgba(255, 255, 255, 0.04)' }}>
+        <Text size="xs" fw={600} tt="uppercase" style={{ color: 'var(--stocky-text-muted)', letterSpacing: '0.08em' }}>
+          Vesting Projections
+        </Text>
       </Box>
 
-      {/* Table Content */}
       <Box style={{ overflowX: 'auto' }}>
         <Table
-          verticalSpacing="md"
-          horizontalSpacing="lg"
+          verticalSpacing={8}
+          horizontalSpacing={12}
           styles={{
-            table: {
-              backgroundColor: 'transparent',
-              borderCollapse: 'collapse',
-            },
-            thead: {
-              backgroundColor: 'rgba(255, 255, 255, 0.02)',
-            },
+            table: { backgroundColor: 'transparent', fontSize: '13px' },
             th: {
-              fontSize: '0.7rem',
+              fontSize: '10px',
               fontWeight: 600,
-              letterSpacing: '0.08em',
+              letterSpacing: '0.06em',
               textTransform: 'uppercase',
               color: 'var(--stocky-text-muted)',
-              borderBottom: '1px solid rgba(255, 255, 255, 0.06)',
-              padding: '14px 20px',
+              borderBottom: '1px solid rgba(255, 255, 255, 0.04)',
+              padding: '8px 12px',
             },
             td: {
-              borderBottom: '1px solid rgba(255, 255, 255, 0.03)',
-              padding: '16px 20px',
+              borderBottom: '1px solid rgba(255, 255, 255, 0.02)',
+              padding: '8px 12px',
             },
           }}
         >
           <Table.Thead>
             <Table.Tr>
-              <Table.Th style={{ width: '40%' }}>Plan</Table.Th>
-              {years.map((year, idx) => (
-                <Table.Th key={year} ta="center">
-                  <Box>
-                    <Text
-                      fw={700}
-                      size="sm"
-                      style={{
-                        color:
-                          idx === 0
-                            ? 'var(--stocky-gold)'
-                            : 'var(--stocky-text-secondary)',
-                        letterSpacing: '0.02em',
-                      }}
-                    >
-                      {year}
-                    </Text>
-                    <Text
-                      size="xs"
-                      style={{
-                        color: 'var(--stocky-text-muted)',
-                        fontWeight: 400,
-                        letterSpacing: '0.02em',
-                        marginTop: 2,
-                      }}
-                    >
-                      EOY
-                    </Text>
-                  </Box>
-                </Table.Th>
+              <Table.Th>Plan</Table.Th>
+              {years.map((year) => (
+                <Table.Th key={year} ta="right">{year}</Table.Th>
               ))}
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
             {planProjections.map((pp) => (
               <Fragment key={pp.plan.id}>
-                <Table.Tr
-                  style={{
-                    transition: 'background-color 0.2s ease',
-                  }}
-                >
+                <Table.Tr>
                   <Table.Td>
-                    <Text
-                      fw={500}
-                      size="sm"
-                      style={{ color: 'var(--stocky-text-primary)' }}
-                    >
+                    <Text size="xs" fw={500} style={{ color: 'var(--stocky-text-primary)' }}>
                       {pp.plan.name}
-                    </Text>
-                    <Text
-                      size="xs"
-                      style={{
-                        color: 'var(--stocky-gold)',
-                        letterSpacing: '0.06em',
-                        marginTop: 2,
-                      }}
-                    >
-                      {pp.plan.ticker}
                     </Text>
                   </Table.Td>
                   {pp.projections.map((proj, idx) => (
-                    <Table.Td key={idx} ta="center">
-                      <Text
-                        size="sm"
-                        fw={600}
-                        className="number-display"
-                        style={{ color: 'var(--stocky-text-primary)' }}
-                      >
+                    <Table.Td key={idx} ta="right">
+                      <Text size="xs" fw={500} className="number-display">
                         {formatUnits(proj.vestedUnits)}
                       </Text>
-                      <Text
-                        size="xs"
-                        className="number-display"
-                        style={{
-                          color:
-                            proj.value > 0
-                              ? 'var(--stocky-emerald)'
-                              : 'var(--stocky-text-muted)',
-                          marginTop: 2,
-                        }}
-                      >
+                      <Text size="xs" className="number-display" style={{ color: 'var(--stocky-text-muted)' }}>
                         {currentStockPrice > 0 ? formatUSD(proj.value) : '—'}
                       </Text>
                     </Table.Td>
@@ -198,36 +110,16 @@ export function VestingTable({ plans, currentStockPrice }: VestingTableProps) {
             ))}
 
             {/* Total Row */}
-            <Table.Tr
-              style={{
-                background: 'linear-gradient(135deg, rgba(230, 194, 78, 0.06) 0%, rgba(230, 194, 78, 0.02) 100%)',
-              }}
-            >
+            <Table.Tr style={{ background: 'rgba(230, 194, 78, 0.04)' }}>
               <Table.Td>
-                <Text
-                  fw={700}
-                  size="sm"
-                  style={{ color: 'var(--stocky-gold)' }}
-                >
-                  TOTAL
-                </Text>
+                <Text size="xs" fw={600} style={{ color: 'var(--stocky-gold)' }}>Total</Text>
               </Table.Td>
               {totals.map((total, idx) => (
-                <Table.Td key={idx} ta="center">
-                  <Text
-                    size="sm"
-                    fw={700}
-                    className="number-display"
-                    style={{ color: 'var(--stocky-text-primary)' }}
-                  >
+                <Table.Td key={idx} ta="right">
+                  <Text size="xs" fw={600} className="number-display">
                     {formatUnits(total.totalUnits)}
                   </Text>
-                  <Text
-                    size="xs"
-                    fw={600}
-                    className="number-display text-gradient-gold"
-                    style={{ marginTop: 2 }}
-                  >
+                  <Text size="xs" fw={500} className="number-display text-gradient-gold">
                     {currentStockPrice > 0 ? formatUSD(total.totalValue) : '—'}
                   </Text>
                 </Table.Td>

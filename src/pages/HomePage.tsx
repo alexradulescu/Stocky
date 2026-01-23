@@ -1,5 +1,5 @@
-import { Title, Button, Stack, Group, Box, Text, SimpleGrid } from '@mantine/core';
-import { IconPlus, IconChartLine, IconTrendingUp } from '@tabler/icons-react';
+import { Title, Button, Stack, Group, Box, Text } from '@mantine/core';
+import { IconPlus, IconTrendingUp } from '@tabler/icons-react';
 import { useNavigate } from '@tanstack/react-router';
 import { useStore } from '../store/useStore';
 import { StockPriceInput } from '../components/StockPriceInput';
@@ -30,227 +30,88 @@ export function HomePage() {
   };
 
   return (
-    <Stack gap="xl" className="animate-fade-in">
-      {/* Hero Header Section */}
-      <Box
-        style={{
-          position: 'relative',
-          paddingTop: 8,
-          paddingBottom: 16,
-        }}
-      >
-        <Group justify="space-between" align="flex-start">
-          <Box>
-            <Text
-              size="xs"
-              fw={600}
-              tt="uppercase"
-              style={{
-                letterSpacing: '0.12em',
-                color: 'var(--stocky-gold)',
-                marginBottom: 4,
-              }}
-            >
-              Stock Options Tracker
-            </Text>
-            <Title
-              order={1}
-              style={{
-                fontSize: 'clamp(2rem, 5vw, 2.75rem)',
-                fontWeight: 700,
-                letterSpacing: '-0.02em',
-                lineHeight: 1.1,
-              }}
-            >
-              Stocky
-            </Title>
-          </Box>
-          <Button
-            onClick={handleAddPlan}
-            leftSection={<IconPlus size={18} stroke={2} />}
-            variant="filled"
-            size="md"
-            style={{
-              background: 'linear-gradient(135deg, #e6c24e 0%, #f0da94 100%)',
-              color: '#0f1419',
-              fontWeight: 600,
-              border: 'none',
-              boxShadow: '0 4px 12px rgba(230, 194, 78, 0.25)',
-            }}
-          >
-            Add Plan
-          </Button>
-        </Group>
-      </Box>
+    <Stack gap="md" className="animate-fade-in">
+      {/* Compact Header */}
+      <Group justify="space-between" align="center">
+        <Box>
+          <Title order={2} style={{ fontSize: '1.5rem', marginBottom: 2 }}>
+            Stocky
+          </Title>
+          <Text size="xs" style={{ color: 'var(--stocky-text-muted)' }}>
+            Stock Options Tracker
+          </Text>
+        </Box>
+        <Button
+          onClick={handleAddPlan}
+          leftSection={<IconPlus size={16} />}
+          size="sm"
+          style={{
+            background: 'linear-gradient(135deg, #e6c24e 0%, #f0da94 100%)',
+            color: '#0f1419',
+            fontWeight: 600,
+            border: 'none',
+          }}
+        >
+          Add
+        </Button>
+      </Group>
 
-      {/* Portfolio Summary Cards - Only show when there are plans */}
+      {/* Quick Stats Bar - Only show when there are plans */}
       {plans.length > 0 && (
-        <Box className="animate-fade-in-up stagger-1">
-          <SimpleGrid cols={{ base: 1, xs: 3 }} spacing="md">
-            {/* Total Units Card */}
-            <Box
-              className="glass-panel"
-              style={{ padding: '20px 24px' }}
-            >
-              <Group gap="sm" align="flex-start">
-                <Box
-                  style={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: 10,
-                    background: 'rgba(230, 194, 78, 0.1)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <IconChartLine size={20} style={{ color: 'var(--stocky-gold)' }} />
-                </Box>
-                <Box style={{ flex: 1 }}>
-                  <Text
-                    size="xs"
-                    fw={500}
-                    tt="uppercase"
-                    style={{
-                      letterSpacing: '0.08em',
-                      color: 'var(--stocky-text-muted)',
-                    }}
-                  >
-                    Total Units
-                  </Text>
-                  <Text
-                    size="xl"
-                    fw={700}
-                    className="number-display"
-                    style={{ color: 'var(--stocky-text-primary)', marginTop: 2 }}
-                  >
-                    {formatUnits(totalUnits)}
-                  </Text>
-                </Box>
-              </Group>
-            </Box>
-
-            {/* Vested Units Card */}
-            <Box
-              className="glass-panel"
-              style={{ padding: '20px 24px' }}
-            >
-              <Group gap="sm" align="flex-start">
-                <Box
-                  style={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: 10,
-                    background: 'rgba(34, 197, 94, 0.1)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <IconTrendingUp size={20} style={{ color: 'var(--stocky-emerald)' }} />
-                </Box>
-                <Box style={{ flex: 1 }}>
-                  <Text
-                    size="xs"
-                    fw={500}
-                    tt="uppercase"
-                    style={{
-                      letterSpacing: '0.08em',
-                      color: 'var(--stocky-text-muted)',
-                    }}
-                  >
-                    Vested
-                  </Text>
-                  <Text
-                    size="xl"
-                    fw={700}
-                    className="number-display"
-                    style={{ color: 'var(--stocky-emerald)', marginTop: 2 }}
-                  >
-                    {formatUnits(vestedUnits)}
-                  </Text>
-                </Box>
-              </Group>
-            </Box>
-
-            {/* Current Value Card */}
-            <Box
-              className="glass-panel"
-              style={{ padding: '20px 24px' }}
-            >
-              <Group gap="sm" align="flex-start">
-                <Box
-                  style={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: 10,
-                    background: 'linear-gradient(135deg, rgba(230, 194, 78, 0.15) 0%, rgba(230, 194, 78, 0.05) 100%)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
-                  <Text fw={700} style={{ color: 'var(--stocky-gold)', fontSize: 14 }}>$</Text>
-                </Box>
-                <Box style={{ flex: 1 }}>
-                  <Text
-                    size="xs"
-                    fw={500}
-                    tt="uppercase"
-                    style={{
-                      letterSpacing: '0.08em',
-                      color: 'var(--stocky-text-muted)',
-                    }}
-                  >
-                    Vested Value
-                  </Text>
-                  <Text
-                    size="xl"
-                    fw={700}
-                    className="number-display text-gradient-gold"
-                    style={{ marginTop: 2 }}
-                  >
-                    {currentStockPrice > 0 ? formatUSD(currentValue) : '—'}
-                  </Text>
-                </Box>
-              </Group>
-            </Box>
-          </SimpleGrid>
+        <Box
+          style={{
+            display: 'flex',
+            gap: 16,
+            padding: '12px 16px',
+            borderRadius: 12,
+            background: 'rgba(255, 255, 255, 0.02)',
+            border: '1px solid rgba(255, 255, 255, 0.06)',
+          }}
+        >
+          <Box style={{ flex: 1 }}>
+            <Text size="xs" style={{ color: 'var(--stocky-text-muted)', marginBottom: 2 }}>
+              Total
+            </Text>
+            <Text size="sm" fw={600} className="number-display">
+              {formatUnits(totalUnits)}
+            </Text>
+          </Box>
+          <Box style={{ flex: 1 }}>
+            <Text size="xs" style={{ color: 'var(--stocky-text-muted)', marginBottom: 2 }}>
+              Vested
+            </Text>
+            <Text size="sm" fw={600} className="number-display" style={{ color: 'var(--stocky-emerald)' }}>
+              {formatUnits(vestedUnits)}
+            </Text>
+          </Box>
+          <Box style={{ flex: 1.5 }}>
+            <Text size="xs" style={{ color: 'var(--stocky-text-muted)', marginBottom: 2 }}>
+              Value
+            </Text>
+            <Text size="sm" fw={600} className="number-display text-gradient-gold">
+              {currentStockPrice > 0 ? formatUSD(currentValue) : '—'}
+            </Text>
+          </Box>
         </Box>
       )}
 
       {/* Stock Price Input */}
-      <Box className="animate-fade-in-up stagger-2">
-        <StockPriceInput />
-      </Box>
+      <StockPriceInput />
 
       {/* Vesting Table */}
       {plans.length > 0 && (
-        <Box className="animate-fade-in-up stagger-3">
-          <VestingTable plans={plans} currentStockPrice={currentStockPrice} />
-        </Box>
+        <VestingTable plans={plans} currentStockPrice={currentStockPrice} />
       )}
 
-      {/* Plans Cards Section */}
+      {/* Plans List */}
       {plans.length > 0 && (
-        <Box className="animate-fade-in-up stagger-4">
-          <Group justify="space-between" align="center" mb="lg">
-            <Title order={2} style={{ fontSize: '1.25rem' }}>
-              Your Plans
-            </Title>
-            <Text size="sm" c="dimmed">
-              {plans.length} {plans.length === 1 ? 'plan' : 'plans'}
-            </Text>
-          </Group>
-          <Stack gap="md">
-            {sortedPlans.map((plan, index) => (
-              <Box
-                key={plan.id}
-                className={`animate-fade-in-up stagger-${Math.min(index + 1, 6)}`}
-                style={{ opacity: 0 }}
-              >
-                <PlanCard plan={plan} />
-              </Box>
+        <Box>
+          <Text size="xs" fw={600} tt="uppercase" mb="xs" style={{ color: 'var(--stocky-text-muted)', letterSpacing: '0.08em' }}>
+            Plans ({plans.length})
+          </Text>
+          <Stack gap="xs">
+            {sortedPlans.map((plan) => (
+              <PlanCard key={plan.id} plan={plan} />
             ))}
           </Stack>
         </Box>
@@ -259,50 +120,36 @@ export function HomePage() {
       {/* Empty State */}
       {plans.length === 0 && (
         <Box
-          className="glass-panel animate-fade-in-scale"
           style={{
-            padding: '60px 32px',
+            padding: '40px 24px',
             textAlign: 'center',
-            marginTop: 20,
+            borderRadius: 12,
+            background: 'rgba(255, 255, 255, 0.02)',
+            border: '1px solid rgba(255, 255, 255, 0.06)',
           }}
         >
-          <Box
-            style={{
-              width: 72,
-              height: 72,
-              margin: '0 auto 24px',
-              borderRadius: 20,
-              background: 'linear-gradient(135deg, rgba(230, 194, 78, 0.12) 0%, rgba(230, 194, 78, 0.04) 100%)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <IconChartLine size={32} style={{ color: 'var(--stocky-gold)' }} />
-          </Box>
-          <Title order={3} mb="sm" style={{ color: 'var(--stocky-text-primary)' }}>
+          <IconTrendingUp
+            size={32}
+            style={{ color: 'var(--stocky-gold)', marginBottom: 12 }}
+          />
+          <Text fw={500} mb="xs" style={{ color: 'var(--stocky-text-primary)' }}>
             No plans yet
-          </Title>
-          <Text
-            size="sm"
-            mb="xl"
-            style={{ color: 'var(--stocky-text-secondary)', maxWidth: 280, margin: '0 auto 28px' }}
-          >
-            Start tracking your stock options by adding your first vesting plan.
+          </Text>
+          <Text size="sm" mb="md" style={{ color: 'var(--stocky-text-muted)' }}>
+            Add your first stock option plan
           </Text>
           <Button
             onClick={handleAddPlan}
-            leftSection={<IconPlus size={18} stroke={2} />}
-            size="lg"
+            leftSection={<IconPlus size={16} />}
+            size="sm"
             style={{
               background: 'linear-gradient(135deg, #e6c24e 0%, #f0da94 100%)',
               color: '#0f1419',
               fontWeight: 600,
               border: 'none',
-              boxShadow: '0 4px 12px rgba(230, 194, 78, 0.25)',
             }}
           >
-            Add Your First Plan
+            Add Plan
           </Button>
         </Box>
       )}
