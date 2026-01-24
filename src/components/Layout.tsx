@@ -1,5 +1,5 @@
 import { AppShell, Container, Box, Text, UnstyledButton, Group } from '@mantine/core';
-import { IconHome, IconCalculator } from '@tabler/icons-react';
+import { IconHome, IconCalculator, IconReceipt2 } from '@tabler/icons-react';
 import { useLocation, Link } from '@tanstack/react-router';
 
 interface LayoutProps {
@@ -9,6 +9,7 @@ interface LayoutProps {
 const navItems = [
   { path: '/', icon: IconHome, label: 'Portfolio' },
   { path: '/calculator', icon: IconCalculator, label: 'Calculator' },
+  { path: '/tax', icon: IconReceipt2, label: 'Tax' },
 ];
 
 export function Layout({ children }: LayoutProps) {
