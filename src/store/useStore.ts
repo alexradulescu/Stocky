@@ -11,10 +11,54 @@ function generateId(): string {
   });
 }
 
+// Default seed data
+const defaultPlans: StockPlan[] = [
+  {
+    id: 'seed-2020-blsh',
+    name: '2020 Grant',
+    ticker: 'BLSH',
+    units: 12136,
+    strikePrice: 14,
+    startDate: '2020-01-01',
+    createdAt: '2020-01-01T00:00:00.000Z',
+    updatedAt: '2020-01-01T00:00:00.000Z',
+  },
+  {
+    id: 'seed-2022-blsh',
+    name: '2022 Grant',
+    ticker: 'BLSH',
+    units: 10071,
+    strikePrice: 14,
+    startDate: '2022-01-01',
+    createdAt: '2022-01-01T00:00:00.000Z',
+    updatedAt: '2022-01-01T00:00:00.000Z',
+  },
+  {
+    id: 'seed-2023-blsh',
+    name: '2023 Grant',
+    ticker: 'BLSH',
+    units: 9308,
+    strikePrice: 14,
+    startDate: '2023-01-01',
+    createdAt: '2023-01-01T00:00:00.000Z',
+    updatedAt: '2023-01-01T00:00:00.000Z',
+  },
+  {
+    id: 'seed-2024-blsh',
+    name: '2024 Grant',
+    ticker: 'BLSH',
+    units: 5436,
+    strikePrice: 24,
+    startDate: '2024-01-01',
+    createdAt: '2024-01-01T00:00:00.000Z',
+    updatedAt: '2024-01-01T00:00:00.000Z',
+  },
+];
+
 export const useStore = create<StockyStore>()(
   persist(
     (set) => ({
-      plans: [],
+      plans: defaultPlans,
       currentStockPrice: 0,
 
       addPlan: (plan) => {
@@ -58,6 +102,18 @@ export const useStore = create<StockyStore>()(
     }),
     {
       name: 'stocky-storage',
+      merge: (persistedState, currentState) => {
+        const persisted = persistedState as Partial<StockyStore> | undefined;
+        // Use default plans only if no plans exist in persisted state
+        const plans = persisted?.plans && persisted.plans.length > 0
+          ? persisted.plans
+          : currentState.plans;
+        return {
+          ...currentState,
+          ...persisted,
+          plans,
+        };
+      },
     }
   )
 );
