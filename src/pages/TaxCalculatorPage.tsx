@@ -48,58 +48,6 @@ export function TaxCalculatorPage() {
     },
   };
 
-  const PersonInputSection = ({
-    name,
-    value,
-    onChange,
-  }: {
-    name: string;
-    value: PersonInput;
-    onChange: (value: PersonInput) => void;
-  }) => (
-    <Box
-      style={{
-        padding: '12px',
-        borderRadius: 10,
-        background: 'rgba(255, 255, 255, 0.02)',
-        border: '1px solid rgba(255, 255, 255, 0.06)',
-      }}
-    >
-      <Text
-        size="11px"
-        fw={600}
-        mb={8}
-        style={{ color: 'var(--stocky-gold)', letterSpacing: '0.02em' }}
-      >
-        {name}
-      </Text>
-      <Group grow gap="sm">
-        <NumberInput
-          label="Annual Salary"
-          value={value.salary}
-          onChange={(val) => onChange({ ...value, salary: val })}
-          placeholder="0"
-          min={0}
-          step={1000}
-          thousandSeparator=","
-          prefix="S$"
-          styles={inputStyles}
-        />
-        <NumberInput
-          label="Annual Bonus"
-          value={value.bonus}
-          onChange={(val) => onChange({ ...value, bonus: val })}
-          placeholder="0"
-          min={0}
-          step={1000}
-          thousandSeparator=","
-          prefix="S$"
-          styles={inputStyles}
-        />
-      </Group>
-    </Box>
-  );
-
   const ResultsTable = ({ results }: { results: TaxCalculationResult }) => {
     const rows = [
       {
@@ -305,8 +253,87 @@ export function TaxCalculatorPage() {
 
       {/* Input Sections */}
       <Stack gap="sm">
-        <PersonInputSection name="Alex" value={alex} onChange={setAlex} />
-        <PersonInputSection name="Andreea" value={andreea} onChange={setAndreea} />
+        {/* Alex */}
+        <Box
+          style={{
+            padding: '12px',
+            borderRadius: 10,
+            background: 'rgba(255, 255, 255, 0.02)',
+            border: '1px solid rgba(255, 255, 255, 0.06)',
+          }}
+        >
+          <Text
+            size="11px"
+            fw={600}
+            mb={8}
+            style={{ color: 'var(--stocky-gold)', letterSpacing: '0.02em' }}
+          >
+            Alex
+          </Text>
+          <Group grow gap="sm">
+            <NumberInput
+              label="Annual Salary"
+              value={alex.salary}
+              onChange={(val) => setAlex({ ...alex, salary: val })}
+              placeholder="0"
+              min={0}
+              step={1000}
+              thousandSeparator=","
+              styles={inputStyles}
+            />
+            <NumberInput
+              label="Annual Bonus"
+              value={alex.bonus}
+              onChange={(val) => setAlex({ ...alex, bonus: val })}
+              placeholder="0"
+              min={0}
+              step={1000}
+              thousandSeparator=","
+              styles={inputStyles}
+            />
+          </Group>
+        </Box>
+
+        {/* Andreea */}
+        <Box
+          style={{
+            padding: '12px',
+            borderRadius: 10,
+            background: 'rgba(255, 255, 255, 0.02)',
+            border: '1px solid rgba(255, 255, 255, 0.06)',
+          }}
+        >
+          <Text
+            size="11px"
+            fw={600}
+            mb={8}
+            style={{ color: 'var(--stocky-gold)', letterSpacing: '0.02em' }}
+          >
+            Andreea
+          </Text>
+          <Group grow gap="sm">
+            <NumberInput
+              label="Annual Salary"
+              value={andreea.salary}
+              onChange={(val) => setAndreea({ ...andreea, salary: val })}
+              placeholder="0"
+              min={0}
+              step={1000}
+              thousandSeparator=","
+              styles={inputStyles}
+            />
+            <NumberInput
+              label="Annual Bonus"
+              value={andreea.bonus}
+              onChange={(val) => setAndreea({ ...andreea, bonus: val })}
+              placeholder="0"
+              min={0}
+              step={1000}
+              thousandSeparator=","
+              styles={inputStyles}
+            />
+          </Group>
+        </Box>
       </Stack>
 
       {/* Results */}
