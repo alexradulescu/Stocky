@@ -25,13 +25,14 @@ export function Layout({ children }: LayoutProps) {
 
   return (
     <AppShell
-      footer={{ height: 52 }}
+      footer={{ height: 'calc(52px + var(--safe-area-inset-bottom))' }}
       layout="default"
       styles={{
         main: {
           backgroundColor: 'transparent',
           minHeight: '100vh',
-          paddingBottom: 'calc(52px + var(--mantine-spacing-sm))',
+          paddingTop: 'var(--safe-area-inset-top)',
+          paddingBottom: 'calc(52px + var(--mantine-spacing-sm) + var(--safe-area-inset-bottom))',
         },
       }}
     >
@@ -48,9 +49,11 @@ export function Layout({ children }: LayoutProps) {
           WebkitBackdropFilter: 'blur(24px)',
           borderTop: '1px solid rgba(255, 255, 255, 0.04)',
           display: 'flex',
-          alignItems: 'center',
+          alignItems: 'flex-start',
           justifyContent: 'center',
           padding: '0 12px',
+          paddingBottom: 'var(--safe-area-inset-bottom)',
+          height: 'calc(52px + var(--safe-area-inset-bottom))',
         }}
       >
         <Group gap={0} style={{ maxWidth: 320, width: '100%' }}>
