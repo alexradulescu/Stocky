@@ -1,23 +1,18 @@
-import { useState, useMemo } from 'react';
-import { Stack, Title, NumberInput, Text, Box, Group } from '@mantine/core';
-import { IconReceipt2 } from '@tabler/icons-react';
+import { useMemo } from 'react';
+import { Stack, Title, NumberInput, Text, Box, Group, ActionIcon } from '@mantine/core';
+import { IconReceipt2, IconX } from '@tabler/icons-react';
 import { calculateFamilyTax, PersonTaxInput, TaxCalculationResult } from '../utils/tax';
 import { formatSGD, formatPercentage } from '../utils/formatting';
-
-interface PersonInput {
-  salary: number | string;
-  bonus: number | string;
-}
+import { useStore } from '../store/useStore';
 
 export function TaxCalculatorPage() {
-  const [alex, setAlex] = useState<PersonInput>({ salary: '', bonus: '' });
-  const [andreea, setAndreea] = useState<PersonInput>({ salary: '', bonus: '' });
+  const { taxInputs, setTaxInputs } = useStore();
 
   const results = useMemo<TaxCalculationResult | null>(() => {
-    const alexSalary = Number(alex.salary) || 0;
-    const alexBonus = Number(alex.bonus) || 0;
-    const andreeaSalary = Number(andreea.salary) || 0;
-    const andreeaBonus = Number(andreea.bonus) || 0;
+    const alexSalary = Number(taxInputs.alexSalary) || 0;
+    const alexBonus = Number(taxInputs.alexBonus) || 0;
+    const andreeaSalary = Number(taxInputs.andreeaSalary) || 0;
+    const andreeaBonus = Number(taxInputs.andreeaBonus) || 0;
 
     // Only calculate if at least one person has income
     if (alexSalary + alexBonus + andreeaSalary + andreeaBonus === 0) {
@@ -30,7 +25,7 @@ export function TaxCalculatorPage() {
     ];
 
     return calculateFamilyTax(inputs);
-  }, [alex, andreea]);
+  }, [taxInputs]);
 
   const inputStyles = {
     input: {
@@ -273,23 +268,49 @@ export function TaxCalculatorPage() {
           <Group grow gap="sm">
             <NumberInput
               label="Annual Salary"
-              value={alex.salary}
-              onChange={(val) => setAlex({ ...alex, salary: val })}
+              value={taxInputs.alexSalary}
+              onChange={(val) => setTaxInputs({ alexSalary: val })}
               placeholder="0"
               min={0}
               step={1000}
               thousandSeparator=","
               styles={inputStyles}
+              rightSection={
+                taxInputs.alexSalary !== '' && (
+                  <ActionIcon
+                    size="sm"
+                    variant="subtle"
+                    color="gray"
+                    onClick={() => setTaxInputs({ alexSalary: '' })}
+                    style={{ marginRight: 4 }}
+                  >
+                    <IconX size={14} />
+                  </ActionIcon>
+                )
+              }
             />
             <NumberInput
               label="Annual Bonus"
-              value={alex.bonus}
-              onChange={(val) => setAlex({ ...alex, bonus: val })}
+              value={taxInputs.alexBonus}
+              onChange={(val) => setTaxInputs({ alexBonus: val })}
               placeholder="0"
               min={0}
               step={1000}
               thousandSeparator=","
               styles={inputStyles}
+              rightSection={
+                taxInputs.alexBonus !== '' && (
+                  <ActionIcon
+                    size="sm"
+                    variant="subtle"
+                    color="gray"
+                    onClick={() => setTaxInputs({ alexBonus: '' })}
+                    style={{ marginRight: 4 }}
+                  >
+                    <IconX size={14} />
+                  </ActionIcon>
+                )
+              }
             />
           </Group>
         </Box>
@@ -314,23 +335,49 @@ export function TaxCalculatorPage() {
           <Group grow gap="sm">
             <NumberInput
               label="Annual Salary"
-              value={andreea.salary}
-              onChange={(val) => setAndreea({ ...andreea, salary: val })}
+              value={taxInputs.andreeaSalary}
+              onChange={(val) => setTaxInputs({ andreeaSalary: val })}
               placeholder="0"
               min={0}
               step={1000}
               thousandSeparator=","
               styles={inputStyles}
+              rightSection={
+                taxInputs.andreeaSalary !== '' && (
+                  <ActionIcon
+                    size="sm"
+                    variant="subtle"
+                    color="gray"
+                    onClick={() => setTaxInputs({ andreeaSalary: '' })}
+                    style={{ marginRight: 4 }}
+                  >
+                    <IconX size={14} />
+                  </ActionIcon>
+                )
+              }
             />
             <NumberInput
               label="Annual Bonus"
-              value={andreea.bonus}
-              onChange={(val) => setAndreea({ ...andreea, bonus: val })}
+              value={taxInputs.andreeaBonus}
+              onChange={(val) => setTaxInputs({ andreeaBonus: val })}
               placeholder="0"
               min={0}
               step={1000}
               thousandSeparator=","
               styles={inputStyles}
+              rightSection={
+                taxInputs.andreeaBonus !== '' && (
+                  <ActionIcon
+                    size="sm"
+                    variant="subtle"
+                    color="gray"
+                    onClick={() => setTaxInputs({ andreeaBonus: '' })}
+                    style={{ marginRight: 4 }}
+                  >
+                    <IconX size={14} />
+                  </ActionIcon>
+                )
+              }
             />
           </Group>
         </Box>

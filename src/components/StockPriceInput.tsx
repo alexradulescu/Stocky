@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { NumberInput, Box, Text, Group } from '@mantine/core';
+import { NumberInput, Box, Text, Group, ActionIcon } from '@mantine/core';
+import { IconX } from '@tabler/icons-react';
 import { useStore } from '../store/useStore';
 
 export function StockPriceInput() {
-  const { currentStockPrice, setCurrentStockPrice } = useStore();
+  const { currentStockPrice, setCurrentStockPrice, clearCurrentStockPrice } = useStore();
   const [inputValue, setInputValue] = useState<number | string>(currentStockPrice || '');
 
   useEffect(() => {
@@ -16,6 +17,11 @@ export function StockPriceInput() {
     if (typeof value === 'number' && value > 0) {
       setCurrentStockPrice(value);
     }
+  };
+
+  const handleClear = () => {
+    setInputValue('');
+    clearCurrentStockPrice();
   };
 
   return (
@@ -36,31 +42,43 @@ export function StockPriceInput() {
             Current stock price
           </Text>
         </Box>
-        <NumberInput
-          value={inputValue}
-          onChange={handleChange}
-          placeholder="0.00"
-          min={0}
-          step={0.01}
-          decimalScale={2}
-          prefix="$"
-          hideControls
-          styles={{
-            input: {
-              width: 90,
-              backgroundColor: 'rgba(255, 255, 255, 0.05)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              fontSize: '16px',
-              fontWeight: 600,
-              height: 34,
-              textAlign: 'right',
-              color: 'var(--stocky-gold)',
-              '&:focus': {
-                borderColor: 'var(--stocky-gold)',
+        <Group gap={4}>
+          <NumberInput
+            value={inputValue}
+            onChange={handleChange}
+            placeholder="0.00"
+            min={0}
+            step={0.01}
+            decimalScale={2}
+            prefix="$"
+            hideControls
+            styles={{
+              input: {
+                width: 90,
+                backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                fontSize: '16px',
+                fontWeight: 600,
+                height: 34,
+                textAlign: 'right',
+                color: 'var(--stocky-gold)',
+                '&:focus': {
+                  borderColor: 'var(--stocky-gold)',
+                },
               },
-            },
-          }}
-        />
+            }}
+          />
+          {currentStockPrice > 0 && (
+            <ActionIcon
+              size="sm"
+              variant="subtle"
+              color="gray"
+              onClick={handleClear}
+            >
+              <IconX size={14} />
+            </ActionIcon>
+          )}
+        </Group>
       </Group>
     </Box>
   );
