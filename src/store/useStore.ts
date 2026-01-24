@@ -60,6 +60,12 @@ export const useStore = create<StockyStore>()(
     (set) => ({
       plans: defaultPlans,
       currentStockPrice: 0,
+      taxInputs: {
+        alexSalary: '',
+        alexBonus: '',
+        andreeaSalary: '',
+        andreeaBonus: '',
+      },
 
       addPlan: (plan) => {
         const now = new Date().toISOString();
@@ -97,6 +103,29 @@ export const useStore = create<StockyStore>()(
       setCurrentStockPrice: (price) => {
         set({
           currentStockPrice: price,
+        });
+      },
+
+      clearCurrentStockPrice: () => {
+        set({
+          currentStockPrice: 0,
+        });
+      },
+
+      setTaxInputs: (inputs) => {
+        set((state) => ({
+          taxInputs: { ...state.taxInputs, ...inputs },
+        }));
+      },
+
+      clearTaxInputs: () => {
+        set({
+          taxInputs: {
+            alexSalary: '',
+            alexBonus: '',
+            andreeaSalary: '',
+            andreeaBonus: '',
+          },
         });
       },
     }),

@@ -14,6 +14,13 @@ export interface AppSettings {
   lastUpdated: string;
 }
 
+export interface TaxInputs {
+  alexSalary: number | string;
+  alexBonus: number | string;
+  andreeaSalary: number | string;
+  andreeaBonus: number | string;
+}
+
 export interface StockyStore {
   // Plans
   plans: StockPlan[];
@@ -24,6 +31,12 @@ export interface StockyStore {
   // Settings
   currentStockPrice: number;
   setCurrentStockPrice: (price: number) => void;
+  clearCurrentStockPrice: () => void;
+
+  // Tax Calculator Inputs
+  taxInputs: TaxInputs;
+  setTaxInputs: (inputs: Partial<TaxInputs>) => void;
+  clearTaxInputs: () => void;
 }
 
 export interface CalculatorResults {
