@@ -23,21 +23,19 @@ const inputStyles = {
     backgroundColor: 'rgba(255, 255, 255, 0.03)',
     border: '1px solid rgba(255, 255, 255, 0.1)',
     fontSize: '16px',
-    height: 38,
     '&:focus': {
       borderColor: 'var(--stocky-gold)',
     },
   },
   label: {
-    fontSize: '10px',
+    fontSize: '12px',
     fontWeight: 500,
     color: 'var(--stocky-text-muted)',
-    marginBottom: 2,
-    letterSpacing: '0.02em',
+    marginBottom: 6,
   },
   error: {
-    marginTop: 2,
-    fontSize: '10px',
+    marginTop: 4,
+    fontSize: '12px',
   },
 };
 
@@ -95,19 +93,19 @@ export function PlanForm({
   });
 
   return (
-    <Stack gap="sm" className="animate-fade-in">
-      {/* iOS 26 Compact Header */}
-      <Group gap="xs" align="center" py={4}>
+    <Stack gap="md" className="animate-fade-in">
+      {/* Header */}
+      <Group gap="sm" align="center">
         <Button
           variant="subtle"
-          size="compact-xs"
+          size="compact-sm"
           p={0}
           onClick={onCancel}
           style={{ color: 'var(--stocky-text-muted)' }}
         >
-          <IconArrowLeft size={18} />
+          <IconArrowLeft size={22} />
         </Button>
-        <Text size="sm" fw={600} style={{ color: 'var(--stocky-text-primary)' }}>
+        <Text size="lg" fw={600} style={{ color: 'var(--stocky-text-primary)' }}>
           {isEditMode ? 'Edit Plan' : 'New Plan'}
         </Text>
       </Group>
@@ -169,24 +167,21 @@ export function PlanForm({
           />
 
           {/* Actions */}
-          <Group justify="flex-end" gap="xs" mt="xs">
+          <Group justify="flex-end" gap="sm" mt="md">
             <Button
               variant="subtle"
-              size="xs"
               onClick={onCancel}
-              style={{ color: 'var(--stocky-text-secondary)', height: 28 }}
+              style={{ color: 'var(--stocky-text-secondary)' }}
             >
               Cancel
             </Button>
             <Button
               type="submit"
-              size="xs"
               style={{
                 background: 'linear-gradient(135deg, #e6c24e 0%, #f0da94 100%)',
                 color: '#0f1419',
                 fontWeight: 600,
                 border: 'none',
-                height: 28,
               }}
             >
               {isEditMode ? 'Save' : 'Create'}

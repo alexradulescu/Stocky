@@ -21,18 +21,18 @@ export function StockPriceInput() {
   return (
     <Box
       style={{
-        padding: '8px 12px',
-        borderRadius: 8,
+        padding: '14px 18px',
+        borderRadius: 12,
         background: 'rgba(255, 255, 255, 0.02)',
         border: '1px solid rgba(255, 255, 255, 0.06)',
       }}
     >
       <Group justify="space-between" align="center">
         <Box>
-          <Text size="xs" fw={500} style={{ color: 'var(--stocky-text-primary)' }}>
+          <Text size="sm" fw={500} style={{ color: 'var(--stocky-text-primary)' }}>
             BLSH Price
           </Text>
-          <Text size="10px" style={{ color: 'var(--stocky-text-muted)' }}>
+          <Text size="xs" style={{ color: 'var(--stocky-text-muted)' }}>
             Current stock price
           </Text>
         </Box>
@@ -47,12 +47,11 @@ export function StockPriceInput() {
           hideControls
           styles={{
             input: {
-              width: 90,
+              width: 110,
               backgroundColor: 'rgba(255, 255, 255, 0.05)',
               border: '1px solid rgba(255, 255, 255, 0.1)',
               fontSize: '16px',
               fontWeight: 600,
-              height: 34,
               textAlign: 'right',
               color: 'var(--stocky-gold)',
               '&:focus': {

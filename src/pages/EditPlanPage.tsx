@@ -17,34 +17,34 @@ export function EditPlanPage({ planId }: EditPlanPageProps) {
 
   if (!plan) {
     return (
-      <Stack gap="sm" className="animate-fade-in">
+      <Stack gap="lg" className="animate-fade-in">
         <Box
           className="glass-panel"
           style={{
-            padding: '32px 20px',
+            padding: '48px 32px',
             textAlign: 'center',
           }}
         >
           <Box
             style={{
-              width: 48,
-              height: 48,
-              margin: '0 auto 12px',
-              borderRadius: 12,
+              width: 64,
+              height: 64,
+              margin: '0 auto 20px',
+              borderRadius: 16,
               background: 'rgba(244, 63, 94, 0.1)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
             }}
           >
-            <IconAlertCircle size={24} style={{ color: 'var(--stocky-rose)' }} />
+            <IconAlertCircle size={32} style={{ color: 'var(--stocky-rose)' }} />
           </Box>
-          <Title order={4} mb="xs" style={{ color: 'var(--stocky-text-primary)', fontSize: '1rem' }}>
+          <Title order={3} mb="sm" style={{ color: 'var(--stocky-text-primary)' }}>
             Plan not found
           </Title>
           <Text
-            size="xs"
-            style={{ color: 'var(--stocky-text-secondary)', maxWidth: 240, margin: '0 auto' }}
+            size="sm"
+            style={{ color: 'var(--stocky-text-secondary)', maxWidth: 280, margin: '0 auto' }}
           >
             The plan you're looking for doesn't exist or has been deleted.
           </Text>

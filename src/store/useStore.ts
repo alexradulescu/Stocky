@@ -11,10 +11,54 @@ function generateId(): string {
   });
 }
 
+// Seed data for initial plans
+const seedPlans: StockPlan[] = [
+  {
+    id: 'seed-2020',
+    name: '2020',
+    ticker: 'BLSH',
+    units: 12136,
+    strikePrice: 14,
+    startDate: '2020-01-01T00:00:00.000Z',
+    createdAt: '2020-01-01T00:00:00.000Z',
+    updatedAt: '2020-01-01T00:00:00.000Z',
+  },
+  {
+    id: 'seed-2022',
+    name: '2022',
+    ticker: 'BLSH',
+    units: 10071,
+    strikePrice: 14,
+    startDate: '2022-01-01T00:00:00.000Z',
+    createdAt: '2022-01-01T00:00:00.000Z',
+    updatedAt: '2022-01-01T00:00:00.000Z',
+  },
+  {
+    id: 'seed-2023',
+    name: '2023',
+    ticker: 'BLSH',
+    units: 9308,
+    strikePrice: 14,
+    startDate: '2023-01-01T00:00:00.000Z',
+    createdAt: '2023-01-01T00:00:00.000Z',
+    updatedAt: '2023-01-01T00:00:00.000Z',
+  },
+  {
+    id: 'seed-2024',
+    name: '2024',
+    ticker: 'BLSH',
+    units: 5436,
+    strikePrice: 24,
+    startDate: '2024-01-01T00:00:00.000Z',
+    createdAt: '2024-01-01T00:00:00.000Z',
+    updatedAt: '2024-01-01T00:00:00.000Z',
+  },
+];
+
 export const useStore = create<StockyStore>()(
   persist(
     (set) => ({
-      plans: [],
+      plans: seedPlans,
       currentStockPrice: 0,
 
       addPlan: (plan) => {

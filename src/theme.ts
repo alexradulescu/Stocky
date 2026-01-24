@@ -58,14 +58,7 @@ export const theme = createTheme({
     fontWeight: '600',
   },
 
-  // iOS 26 compact spacing scale
-  spacing: {
-    xs: rem(4),
-    sm: rem(8),
-    md: rem(12),
-    lg: rem(16),
-    xl: rem(24),
-  },
+  // Use Mantine default spacing (no custom overrides)
 
   // Elegant radius - slightly softer than default
   radius: {
