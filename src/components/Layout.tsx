@@ -25,14 +25,14 @@ export function Layout({ children }: LayoutProps) {
 
   return (
     <AppShell
-      footer={{ height: 'calc(52px + 16px + var(--safe-area-inset-bottom))' }}
+      footer={{ height: 'calc(52px + 4px + var(--safe-area-inset-bottom))' }}
       layout="default"
       styles={{
         main: {
           backgroundColor: 'transparent',
           minHeight: '100vh',
           paddingTop: 'var(--safe-area-inset-top)',
-          paddingBottom: 'calc(52px + 24px + var(--safe-area-inset-bottom))',
+          paddingBottom: 'calc(52px + 8px + var(--safe-area-inset-bottom))',
         },
       }}
     >
@@ -49,9 +49,9 @@ export function Layout({ children }: LayoutProps) {
           display: 'flex',
           alignItems: 'flex-start',
           justifyContent: 'center',
-          padding: '8px 16px',
-          paddingBottom: 'calc(8px + var(--safe-area-inset-bottom))',
-          height: 'calc(52px + 16px + var(--safe-area-inset-bottom))',
+          padding: '2px 16px',
+          paddingBottom: 'calc(2px + var(--safe-area-inset-bottom))',
+          height: 'calc(52px + 4px + var(--safe-area-inset-bottom))',
         }}
       >
         <Box
