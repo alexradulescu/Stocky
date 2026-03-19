@@ -1,4 +1,4 @@
-import { RootRoute, Route, Router, useParams } from '@tanstack/react-router';
+import { createRootRoute, createRoute, createRouter, useParams } from '@tanstack/react-router';
 import { App } from '../App';
 import { HomePage } from '../pages/HomePage';
 import { CalculatorPage } from '../pages/CalculatorPage';
@@ -11,35 +11,35 @@ function EditPlanPageWrapper() {
   return <EditPlanPage planId={planId} />;
 }
 
-const rootRoute = new RootRoute({
+const rootRoute = createRootRoute({
   component: App,
 });
 
-const indexRoute = new Route({
+const indexRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/',
   component: HomePage,
 });
 
-const calculatorRoute = new Route({
+const calculatorRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/calculator',
   component: CalculatorPage,
 });
 
-const taxRoute = new Route({
+const taxRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/tax',
   component: TaxCalculatorPage,
 });
 
-const addPlanRoute = new Route({
+const addPlanRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/plan/new',
   component: AddPlanPage,
 });
 
-const editPlanRoute = new Route({
+const editPlanRoute = createRoute({
   getParentRoute: () => rootRoute,
   path: '/plan/$planId/edit',
   component: EditPlanPageWrapper,
@@ -53,7 +53,7 @@ const routeTree = rootRoute.addChildren([
   editPlanRoute,
 ]);
 
-export const router = new Router({ routeTree });
+export const router = createRouter({ routeTree });
 
 declare module '@tanstack/react-router' {
   interface Register {
