@@ -59,7 +59,7 @@ export function CalculatorResults({ results }: CalculatorResultsProps) {
             style={{ color: 'var(--stocky-text-secondary)', marginTop: 4 }}
             className="number-display"
           >
-            {formatSGD(results.netProfitSGD)} SGD
+            {formatSGD(results.netProfitSGD)}
           </Text>
         )}
       </Box>
