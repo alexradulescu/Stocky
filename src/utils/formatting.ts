@@ -16,12 +16,14 @@ export function formatUSD(value: number): string {
  * e.g., 1234.56 -> "S$1,234.56"
  */
 export function formatSGD(value: number): string {
-  return new Intl.NumberFormat('en-SG', {
+  const formatted = new Intl.NumberFormat('en-SG', {
     style: 'currency',
     currency: 'SGD',
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   }).format(value);
+  // Some environments output "$" instead of "S$" for SGD — normalise it
+  return formatted.startsWith('S$') ? formatted : 'S$' + formatted.replace(/^\$/, '');
 }
 
 /**
