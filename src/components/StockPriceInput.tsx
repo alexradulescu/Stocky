@@ -24,6 +24,10 @@ export function StockPriceInput() {
     clearCurrentStockPrice();
   };
 
+  const handleClick = (e: React.MouseEvent<HTMLInputElement>) => {
+    e.currentTarget.select();
+  };
+
   return (
     <Box
       style={{
@@ -42,43 +46,45 @@ export function StockPriceInput() {
             Current stock price
           </Text>
         </Box>
-        <Group gap={4}>
-          <NumberInput
-            value={inputValue}
-            onChange={handleChange}
-            placeholder="0.00"
-            min={0}
-            step={0.01}
-            decimalScale={2}
-            prefix="$"
-            hideControls
-            styles={{
-              input: {
-                width: 90,
-                backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
-                fontSize: '16px',
-                fontWeight: 600,
-                height: 34,
-                textAlign: 'right',
-                color: 'var(--stocky-gold)',
-                '&:focus': {
-                  borderColor: 'var(--stocky-gold)',
-                },
+        <NumberInput
+          value={inputValue}
+          onChange={handleChange}
+          onClick={handleClick}
+          placeholder="0.00"
+          min={0}
+          step={0.01}
+          decimalScale={2}
+          prefix="$"
+          hideControls
+          rightSection={
+            currentStockPrice > 0 ? (
+              <ActionIcon
+                size="sm"
+                variant="subtle"
+                color="gray"
+                onClick={handleClear}
+              >
+                <IconX size={14} />
+              </ActionIcon>
+            ) : null
+          }
+          styles={{
+            input: {
+              width: 110,
+              backgroundColor: 'rgba(255, 255, 255, 0.05)',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              fontSize: '16px',
+              fontWeight: 600,
+              height: 34,
+              textAlign: 'right',
+              color: 'var(--stocky-gold)',
+              paddingRight: currentStockPrice > 0 ? 30 : undefined,
+              '&:focus': {
+                borderColor: 'var(--stocky-gold)',
               },
-            }}
-          />
-          {currentStockPrice > 0 && (
-            <ActionIcon
-              size="sm"
-              variant="subtle"
-              color="gray"
-              onClick={handleClear}
-            >
-              <IconX size={14} />
-            </ActionIcon>
-          )}
-        </Group>
+            },
+          }}
+        />
       </Group>
     </Box>
   );

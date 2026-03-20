@@ -1,3 +1,4 @@
+import React from 'react';
 import { createTheme, MantineColorsTuple, rem } from '@mantine/core';
 
 // Custom gold/amber palette for premium financial aesthetic
@@ -114,6 +115,9 @@ export const theme = createTheme({
       },
     },
     NumberInput: {
+      defaultProps: {
+        onClick: (e: React.MouseEvent<HTMLInputElement>) => e.currentTarget.select(),
+      },
       styles: {
         input: {
           fontSize: '16px',
