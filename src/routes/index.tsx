@@ -1,7 +1,7 @@
 import { createRootRoute, createRoute, createRouter, useParams } from '@tanstack/react-router';
 import { App } from '../App';
 import { HomePage } from '../pages/HomePage';
-import { CalculatorPage } from '../pages/CalculatorPage';
+import { PlansPage } from '../pages/PlansPage';
 import { TaxCalculatorPage } from '../pages/TaxCalculatorPage';
 import { AddPlanPage } from '../pages/AddPlanPage';
 import { EditPlanPage } from '../pages/EditPlanPage';
@@ -21,10 +21,10 @@ const indexRoute = createRoute({
   component: HomePage,
 });
 
-const calculatorRoute = createRoute({
+const plansRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: '/calculator',
-  component: CalculatorPage,
+  path: '/plans',
+  component: PlansPage,
 });
 
 const taxRoute = createRoute({
@@ -47,7 +47,7 @@ const editPlanRoute = createRoute({
 
 const routeTree = rootRoute.addChildren([
   indexRoute,
-  calculatorRoute,
+  plansRoute,
   taxRoute,
   addPlanRoute,
   editPlanRoute,
