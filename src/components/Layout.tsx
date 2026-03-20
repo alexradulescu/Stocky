@@ -1,5 +1,5 @@
 import { AppShell, Container, Box, Text, UnstyledButton, Group } from '@mantine/core';
-import { IconHome, IconCalculator, IconReceipt2 } from '@tabler/icons-react';
+import { IconHome, IconListDetails, IconReceipt2 } from '@tabler/icons-react';
 import { useLocation, Link } from '@tanstack/react-router';
 
 interface LayoutProps {
@@ -7,8 +7,8 @@ interface LayoutProps {
 }
 
 const navItems = [
-  { path: '/', icon: IconHome, label: 'Portfolio' },
-  { path: '/calculator', icon: IconCalculator, label: 'Calculator' },
+  { path: '/', icon: IconHome, label: 'Overview' },
+  { path: '/plans', icon: IconListDetails, label: 'Plans' },
   { path: '/tax', icon: IconReceipt2, label: 'Tax' },
 ];
 
