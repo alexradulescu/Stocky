@@ -1,6 +1,4 @@
-import { useState } from 'react';
-import { Button } from '@heroui/react';
-import { Modal } from '@heroui/react';
+import { Button, Modal, useOverlayState } from '@heroui/react';
 import { IconEdit, IconTrash } from '@tabler/icons-react';
 import { useNavigate } from '@tanstack/react-router';
 import { StockPlan } from '../types/index';
@@ -16,7 +14,7 @@ interface PlanCardProps {
 export function PlanCard({ plan }: PlanCardProps) {
   const navigate = useNavigate();
   const { deletePlan } = useStore();
-  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const deleteModalState = useOverlayState();
 
   const today = new Date();
   const vestedUnits = calculateVestedUnits(plan, today);
@@ -24,7 +22,7 @@ export function PlanCard({ plan }: PlanCardProps) {
   const yearsVested = getYearsVested(plan, today);
 
   const handleEdit = () => { navigate({ to: `/plan/${plan.id}/edit` }); };
-  const confirmDelete = () => { deletePlan(plan.id); setShowDeleteModal(false); };
+  const confirmDelete = () => { deletePlan(plan.id); deleteModalState.close(); };
 
   return (
     <>
@@ -43,7 +41,7 @@ export function PlanCard({ plan }: PlanCardProps) {
             <Button isIconOnly variant="ghost" size="sm" onPress={handleEdit} className="min-w-0 w-7 h-7 text-[var(--stocky-text-muted)]">
               <IconEdit size={14} />
             </Button>
-            <Button isIconOnly variant="ghost" size="sm" onPress={() => setShowDeleteModal(true)} className="min-w-0 w-7 h-7 text-[var(--stocky-text-muted)]">
+            <Button isIconOnly variant="ghost" size="sm" onPress={deleteModalState.open} className="min-w-0 w-7 h-7 text-[var(--stocky-text-muted)]">
               <IconTrash size={14} />
             </Button>
           </Group>
@@ -72,34 +70,28 @@ export function PlanCard({ plan }: PlanCardProps) {
         </div>
       </div>
 
-      <Modal>
-        <Modal.Root>
-          {showDeleteModal && (
-            <>
-              <Modal.Backdrop isDismissable onClick={() => setShowDeleteModal(false)} />
-              <Modal.Container size="sm">
-                <Modal.Dialog>
-                  <Modal.Header>
-                    <Modal.Heading>Delete Plan</Modal.Heading>
-                  </Modal.Header>
-                  <Modal.Body>
-                    <Text size="sm" style={{ color: 'var(--stocky-text-secondary)' }}>
-                      Delete <strong style={{ color: 'var(--stocky-text-primary)' }}>"{plan.name}"</strong>?
-                    </Text>
-                  </Modal.Body>
-                  <Modal.Footer>
-                    <Button variant="ghost" onPress={() => setShowDeleteModal(false)}>
-                      Cancel
-                    </Button>
-                    <Button variant="outline" onPress={confirmDelete}>
-                      Delete
-                    </Button>
-                  </Modal.Footer>
-                </Modal.Dialog>
-              </Modal.Container>
-            </>
-          )}
-        </Modal.Root>
+      <Modal state={deleteModalState}>
+        <Modal.Backdrop isDismissable />
+        <Modal.Container size="sm" placement="center">
+          <Modal.Dialog>
+            <Modal.Header>
+              <Modal.Heading>Delete Plan</Modal.Heading>
+            </Modal.Header>
+            <Modal.Body>
+              <Text size="sm" style={{ color: 'var(--stocky-text-secondary)' }}>
+                Delete <strong style={{ color: 'var(--stocky-text-primary)' }}>"{plan.name}"</strong>?
+              </Text>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="ghost" onPress={deleteModalState.close}>
+                Cancel
+              </Button>
+              <Button variant="danger" onPress={confirmDelete}>
+                Delete
+              </Button>
+            </Modal.Footer>
+          </Modal.Dialog>
+        </Modal.Container>
       </Modal>
     </>
   );
