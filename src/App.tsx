@@ -1,17 +1,14 @@
-import { MantineProvider } from '@mantine/core';
 import { Outlet } from '@tanstack/react-router';
-import { theme } from './theme';
 import { Layout } from './components/Layout';
-import '@mantine/core/styles.css';
-import '@mantine/dates/styles.css';
+import './app.css';
 import './styles/global.css';
 
 export function App() {
   return (
-    <MantineProvider theme={theme} defaultColorScheme="dark">
+    <div className="dark text-foreground">
       <Layout>
         <Outlet />
       </Layout>
-    </MantineProvider>
+    </div>
   );
 }

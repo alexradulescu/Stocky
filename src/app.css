@@ -1,0 +1,18 @@
+@import "@heroui/styles";
+
+@theme {
+  --font-sans: "DM Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-serif: "Source Serif 4", Georgia, serif;
+  --color-gold-50: #fefbf3;
+  --color-gold-100: #faf4e1;
+  --color-gold-200: #f5e8bd;
+  --color-gold-300: #f0da94;
+  --color-gold-400: #ebce72;
+  --color-gold-500: #e6c24e;
+  --color-gold-600: #ccab3f;
+  --color-gold-700: #b69835;
+  --color-gold-800: #9d8327;
+  --color-gold-900: #7a6520;
+  --color-emerald-500: #22c55e;
+  --color-rose-500: #f43f5e;
+}
