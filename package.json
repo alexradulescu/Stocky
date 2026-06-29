@@ -15,10 +15,7 @@
   "dependencies": {
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
-    "@mantine/core": "^8.3.18",
-    "@mantine/hooks": "^8.3.18",
-    "@mantine/form": "^8.3.18",
-    "@mantine/dates": "^8.3.18",
+    "@heroui/react": "^3.2.1",
     "@tabler/icons-react": "^3.40.0",
     "@tanstack/react-router": "^1.167.5",
     "zustand": "^5.0.12",
@@ -31,6 +28,8 @@
     "@vitejs/plugin-react": "^6.0.1",
     "typescript": "^5.9.3",
     "vite": "^8.0.1",
-    "vite-plugin-pwa": "^1.2.0"
+    "vite-plugin-pwa": "^1.2.0",
+    "@tailwindcss/vite": "^4.0.0",
+    "tailwindcss": "^4.0.0"
   }
 }

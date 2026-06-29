@@ -246,39 +246,6 @@ body {
   outline-offset: 2px;
 }
 
-/* ===== Mantine Overrides for Dark Theme ===== */
-.mantine-Modal-overlay {
-  background-color: rgba(0, 0, 0, 0.7) !important;
-  backdrop-filter: blur(4px);
-}
-
-.mantine-DateInput-dropdown,
-.mantine-DatePicker-dropdown {
-  background-color: var(--stocky-bg-elevated) !important;
-  border: 1px solid var(--stocky-border-medium) !important;
-}
-
-.mantine-DateInput-day,
-.mantine-DatePicker-day {
-  color: var(--stocky-text-primary);
-}
-
-.mantine-DateInput-day:hover,
-.mantine-DatePicker-day:hover {
-  background-color: rgba(255, 255, 255, 0.05);
-}
-
-.mantine-DateInput-day[data-selected],
-.mantine-DatePicker-day[data-selected] {
-  background-color: var(--stocky-gold) !important;
-  color: var(--stocky-bg-primary) !important;
-}
-
-/* Progress bar gold color */
-.progress-gold .mantine-Progress-section {
-  background: var(--stocky-gradient-gold);
-}
-
 /* Input placeholder styling */
 input::placeholder,
 textarea::placeholder {

@@ -1,15 +1,8 @@
-import {
-  TextInput,
-  NumberInput,
-  Button,
-  Group,
-  Stack,
-  Text,
-} from '@mantine/core';
-import { DateInput } from '@mantine/dates';
-import { useForm } from '@mantine/form';
+import { useState } from 'react';
+import { Button } from '@heroui/react';
 import { IconArrowLeft } from '@tabler/icons-react';
 import { StockPlan } from '../types/index';
+import { Stack, Group, Text } from './ui';
 
 interface PlanFormProps {
   initialData?: StockPlan;
@@ -18,93 +11,45 @@ interface PlanFormProps {
   isEditMode?: boolean;
 }
 
-const inputStyles = {
-  input: {
-    backgroundColor: 'rgba(255, 255, 255, 0.03)',
-    border: '1px solid rgba(255, 255, 255, 0.1)',
-    fontSize: '16px',
-    height: 38,
-    '&:focus': {
-      borderColor: 'var(--stocky-gold)',
-    },
-  },
-  label: {
-    fontSize: '10px',
-    fontWeight: 500,
-    color: 'var(--stocky-text-muted)',
-    marginBottom: 2,
-    letterSpacing: '0.02em',
-  },
-  error: {
-    marginTop: 2,
-    fontSize: '10px',
-  },
-};
+export function PlanForm({ initialData, onSubmit, onCancel, isEditMode = false }: PlanFormProps) {
+  const [name, setName] = useState(initialData?.name || '');
+  const [ticker, setTicker] = useState(initialData?.ticker || 'BLSH');
+  const [units, setUnits] = useState(initialData?.units?.toString() || '');
+  const [strikePrice, setStrikePrice] = useState(initialData?.strikePrice?.toString() || '');
+  const [startDate, setStartDate] = useState(
+    initialData?.startDate ? initialData.startDate.split('T')[0] : new Date().toISOString().split('T')[0]
+  );
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
-export function PlanForm({
-  initialData,
-  onSubmit,
-  onCancel,
-  isEditMode = false,
-}: PlanFormProps) {
-  const form = useForm({
-    initialValues: {
-      name: initialData?.name || '',
-      ticker: initialData?.ticker || 'BLSH',
-      units: initialData?.units ?? ('' as number | ''),
-      strikePrice: initialData?.strikePrice ?? ('' as number | ''),
-      startDate: initialData?.startDate ? new Date(initialData.startDate) : new Date(),
-    },
-    validate: {
-      name: (value) => (!value?.trim() ? 'Required' : null),
-      ticker: (value) => (!value?.trim() ? 'Required' : null),
-      units: (value) => {
-        if (value === '' || value === null || value === undefined) return 'Required';
-        const num = Number(value);
-        if (isNaN(num) || num <= 0) return 'Must be > 0';
-        return null;
-      },
-      strikePrice: (value) => {
-        if (value === '' || value === null || value === undefined) return 'Required';
-        const num = Number(value);
-        if (isNaN(num) || num < 0) return 'Must be >= 0';
-        return null;
-      },
-      startDate: (value) => (!value ? 'Required' : null),
-    },
-  });
+  function validate(): boolean {
+    const newErrors: Record<string, string> = {};
+    if (!name.trim()) newErrors.name = 'Required';
+    if (!ticker.trim()) newErrors.ticker = 'Required';
+    const unitsNum = Number(units);
+    if (!units || isNaN(unitsNum) || unitsNum <= 0) newErrors.units = 'Must be > 0';
+    const strikeNum = Number(strikePrice);
+    if (strikePrice === '' || isNaN(strikeNum) || strikeNum < 0) newErrors.strikePrice = 'Must be >= 0';
+    if (!startDate) newErrors.startDate = 'Required';
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  }
 
-  const handleSubmit = form.onSubmit((values) => {
-    // Ensure startDate is a valid Date
-    let startDateISO: string;
-    if (values.startDate instanceof Date) {
-      startDateISO = values.startDate.toISOString();
-    } else if (typeof values.startDate === 'string') {
-      startDateISO = new Date(values.startDate).toISOString();
-    } else {
-      startDateISO = new Date().toISOString();
-    }
-
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!validate()) return;
     onSubmit({
-      name: values.name.trim(),
-      ticker: values.ticker.trim().toUpperCase(),
-      units: Number(values.units),
-      strikePrice: Number(values.strikePrice),
-      startDate: startDateISO,
+      name: name.trim(),
+      ticker: ticker.trim().toUpperCase(),
+      units: Number(units),
+      strikePrice: Number(strikePrice),
+      startDate: new Date(startDate).toISOString(),
     });
-  });
+  }
 
   return (
     <Stack gap="sm" className="animate-fade-in">
-      {/* iOS 26 Compact Header */}
-      <Group gap="xs" align="center" py={4}>
-        <Button
-          variant="subtle"
-          size="compact-xs"
-          p={0}
-          onClick={onCancel}
-          style={{ color: 'var(--stocky-text-muted)' }}
-        >
+      <Group gap="xs" align="center" className="py-1">
+        <Button isIconOnly variant="ghost" size="sm" onPress={onCancel} className="min-w-0 text-[var(--stocky-text-muted)]">
           <IconArrowLeft size={18} />
         </Button>
         <Text size="sm" fw={600} style={{ color: 'var(--stocky-text-primary)' }}>
@@ -114,80 +59,78 @@ export function PlanForm({
 
       <form onSubmit={handleSubmit}>
         <Stack gap="sm">
-          {/* Plan Name */}
-          <TextInput
-            label="Plan Name"
-            placeholder="e.g., 2024 Grant"
-            {...form.getInputProps('name')}
-            styles={inputStyles}
-          />
-
-          {/* Ticker */}
-          <TextInput
-            label="Ticker"
-            placeholder="BLSH"
-            {...form.getInputProps('ticker')}
-            styles={{
-              ...inputStyles,
-              input: {
-                ...inputStyles.input,
-                textTransform: 'uppercase',
-                fontWeight: 600,
-                letterSpacing: '0.05em',
-              },
-            }}
-          />
-
-          {/* Units & Strike Price - side by side */}
-          <Group grow gap="sm">
-            <NumberInput
-              label="Units"
-              placeholder="1000"
-              {...form.getInputProps('units')}
-              min={1}
-              thousandSeparator=","
-              styles={inputStyles}
+          <div>
+            <label className="block text-[10px] font-medium text-[var(--stocky-text-muted)] mb-0.5 tracking-wider uppercase">Plan Name</label>
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="e.g., 2024 Grant"
+              className="w-full h-[38px] bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.1)] rounded-lg text-base px-3 text-[var(--stocky-text-primary)] focus:border-[var(--stocky-gold)] focus:outline-none placeholder:text-[var(--stocky-text-muted)]"
             />
-            <NumberInput
-              label="Strike Price"
-              placeholder="0.00"
-              {...form.getInputProps('strikePrice')}
-              min={0}
-              step={0.01}
-              decimalScale={2}
-              prefix="$"
-              styles={inputStyles}
+            {errors.name && <span className="text-[10px] text-danger mt-0.5 block">{errors.name}</span>}
+          </div>
+
+          <div>
+            <label className="block text-[10px] font-medium text-[var(--stocky-text-muted)] mb-0.5 tracking-wider uppercase">Ticker</label>
+            <input
+              type="text"
+              value={ticker}
+              onChange={(e) => setTicker(e.target.value)}
+              placeholder="BLSH"
+              className="w-full h-[38px] bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.1)] rounded-lg text-base px-3 uppercase font-semibold tracking-wider text-[var(--stocky-text-primary)] focus:border-[var(--stocky-gold)] focus:outline-none placeholder:text-[var(--stocky-text-muted)]"
             />
-          </Group>
+            {errors.ticker && <span className="text-[10px] text-danger mt-0.5 block">{errors.ticker}</span>}
+          </div>
 
-          {/* Start Date */}
-          <DateInput
-            label="Vesting Start Date"
-            placeholder="Select date"
-            {...form.getInputProps('startDate')}
-            styles={inputStyles}
-          />
+          <div className="grid grid-cols-2 gap-2">
+            <div>
+              <label className="block text-[10px] font-medium text-[var(--stocky-text-muted)] mb-0.5 tracking-wider uppercase">Units</label>
+              <input
+                type="text"
+                inputMode="numeric"
+                value={units}
+                onChange={(e) => setUnits(e.target.value.replace(/[^0-9]/g, ''))}
+                onClick={(e) => e.currentTarget.select()}
+                placeholder="1000"
+                className="w-full h-[38px] bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.1)] rounded-lg text-base px-3 text-[var(--stocky-text-primary)] focus:border-[var(--stocky-gold)] focus:outline-none placeholder:text-[var(--stocky-text-muted)]"
+              />
+              {errors.units && <span className="text-[10px] text-danger mt-0.5 block">{errors.units}</span>}
+            </div>
+            <div>
+              <label className="block text-[10px] font-medium text-[var(--stocky-text-muted)] mb-0.5 tracking-wider uppercase">Strike Price</label>
+              <input
+                type="text"
+                inputMode="decimal"
+                value={strikePrice ? `$${strikePrice}` : ''}
+                onChange={(e) => setStrikePrice(e.target.value.replace(/[^0-9.]/g, ''))}
+                onClick={(e) => e.currentTarget.select()}
+                placeholder="$0.00"
+                className="w-full h-[38px] bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.1)] rounded-lg text-base px-3 text-[var(--stocky-text-primary)] focus:border-[var(--stocky-gold)] focus:outline-none placeholder:text-[var(--stocky-text-muted)]"
+              />
+              {errors.strikePrice && <span className="text-[10px] text-danger mt-0.5 block">{errors.strikePrice}</span>}
+            </div>
+          </div>
 
-          {/* Actions */}
-          <Group justify="flex-end" gap="xs" mt="xs">
-            <Button
-              variant="subtle"
-              size="xs"
-              onClick={onCancel}
-              style={{ color: 'var(--stocky-text-secondary)', height: 28 }}
-            >
+          <div>
+            <label className="block text-[10px] font-medium text-[var(--stocky-text-muted)] mb-0.5 tracking-wider uppercase">Vesting Start Date</label>
+            <input
+              type="date"
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+              className="w-full h-[38px] bg-[rgba(255,255,255,0.03)] border border-[rgba(255,255,255,0.1)] rounded-lg text-base px-3 text-[var(--stocky-text-primary)] focus:border-[var(--stocky-gold)] focus:outline-none"
+            />
+            {errors.startDate && <span className="text-[10px] text-danger mt-0.5 block">{errors.startDate}</span>}
+          </div>
+
+          <Group justify="end" gap="xs" className="mt-1">
+            <Button variant="ghost" size="sm" onPress={onCancel} className="text-[var(--stocky-text-secondary)] h-7">
               Cancel
             </Button>
             <Button
               type="submit"
-              size="xs"
-              style={{
-                background: 'linear-gradient(135deg, #e6c24e 0%, #f0da94 100%)',
-                color: '#0f1419',
-                fontWeight: 600,
-                border: 'none',
-                height: 28,
-              }}
+              size="sm"
+              className="bg-gradient-to-br from-gold-500 to-gold-300 text-[#0f1419] font-semibold border-none h-7"
             >
               {isEditMode ? 'Save' : 'Create'}
             </Button>
